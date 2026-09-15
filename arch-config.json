@@ -1,7 +1,12 @@
 [
   {
-    "app_name": "",
-    "source": "",
-    "arches": []
+    "app_name": "youtube",
+    "source": "morphe",
+    "arches": ["universal"]
+  },
+  {
+    "app_name": "youtube-music",
+    "source": "morphe",
+    "arches": ["arm64-v8a"]
   }
 ]

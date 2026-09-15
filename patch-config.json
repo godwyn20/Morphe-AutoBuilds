@@ -1,5 +1,6 @@
 {
   "patch_list": [
-    { "app_name": "", "source": ""}
+    { "app_name": "youtube", "source": "morphe" },
+    { "app_name": "youtube-music", "source": "morphe" }
   ]
 }
