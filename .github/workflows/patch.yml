@@ -274,7 +274,7 @@ jobs:
     if: |
       always() &&
       needs.check-updates.outputs.has_updates == 'true' &&
-      needs.build-apps.result == 'success'
+      needs.build-apps.result != 'cancelled'
 
     permissions:
       contents: write
@@ -622,3 +622,4 @@ jobs:
         with:
           retain_days: 3
           keep_minimum_runs: 5
+
