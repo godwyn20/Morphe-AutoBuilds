@@ -1,6 +1,9 @@
 {
   "patch_list": [
     { "app_name": "youtube", "source": "morphe" },
-    { "app_name": "youtube-music", "source": "morphe" }
+    { "app_name": "youtube-music", "source": "morphe" },
+    { "app_name": "brave", "source": "kveld9" },
+    { "app_name": "vivaldi", "source": "kveld9" },
+    { "app_name": "tiktok", "source": "kveld9" }
   ]
 }

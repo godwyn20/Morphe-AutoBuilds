@@ -1,0 +1,10 @@
+{
+  "name": "brave",
+  "type": "APK",
+  "arch": "arm64-v8a",
+  "package": "com.brave.browser",
+  "version": "",
+  "repo": "brave/brave-browser",
+  "tag": "latest",
+  "asset_pattern": "bravemonoarm64"
+}
