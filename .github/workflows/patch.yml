@@ -181,6 +181,7 @@ jobs:
         env:
           APP_NAME: ${{ matrix.app_name }}
           SOURCE: ${{ matrix.source }}
+          ARCH: ${{ matrix.arch }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TRAWL_URL: http://localhost:8191
