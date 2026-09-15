@@ -6,6 +6,8 @@
     { "app_name": "vivaldi", "source": "kveld9" },
     { "app_name": "tiktok", "source": "kveld9" },
     { "app_name": "gboard", "source": "jasonwu1994" },
-    { "app_name": "microsoft-edge", "source": "quantavil" }
+    { "app_name": "microsoft-edge", "source": "quantavil" },
+    { "app_name": "windy", "source": "hoodles" },
+    { "app_name": "camscanner", "source": "hoodles" }
   ]
 }

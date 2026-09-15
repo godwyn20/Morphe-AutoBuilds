@@ -33,5 +33,15 @@
     "app_name": "microsoft-edge",
     "source": "edge-morphe",
     "arches": ["arm64-v8a"]
+  },
+  {
+    "app_name": "windy",
+    "source": "hoodles",
+    "arches": ["arm64-v8a"]
+  },
+  {
+    "app_name": "camscanner",
+    "source": "hoodles",
+    "arches": ["arm64-v8a"]
   }
 ]
