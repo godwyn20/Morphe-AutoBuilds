@@ -113,7 +113,7 @@ def load_app_config(app_name: str) -> Tuple[Optional[dict], Optional[str]]:
     config file, or (None, None) if none exists. The platform name matches the
     provider module (apkmirror/apkpure/uptodown/aptoide) so the caller can use it
     to dispatch version lookups."""
-    for platform in ("apkmirror", "apkpure", "uptodown", "aptoide"):
+    for platform in ("apkmirror", "apkpure", "uptodown", "aptoide", "github"):
         fp = APPS_DIR / platform / f"{app_name}.json"
         if fp.exists():
             try:
