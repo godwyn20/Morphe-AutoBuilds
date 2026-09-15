@@ -431,66 +431,146 @@ jobs:
       # ----------------------------------------------------------
 
       - name: Generate Release Notes
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "📝 Generating release notes..."
 
-          if [ "${{ steps.check-release.outputs.release_exists }}" = "true" ]; then
-            gh release view latest \
-              --json assets \
-              --jq '.assets[].name' \
-              > current_assets.txt
-          else
-            : > current_assets.txt
-          fi
+          python - <<'PY'
+          import json
+          import re
+          from pathlib import Path
 
-          for apk in ./release-apks/*.apk; do
-            [ -f "$apk" ] || continue
-            basename "$apk" >> current_assets.txt
-          done
+          APP_NAMES = {
+              "youtube": "YouTube",
+              "youtube-music": "YT-Music",
+              "brave": "Brave",
+              "gboard": "Gboard",
+              "vivaldi": "Vivaldi",
+              "microsoft-edge": "Microsoft Edge",
+              "windy": "Windy",
+              "camscanner": "CamScanner",
+              "tiktok": "TikTok",
+          }
 
-          echo "manifest.json" >> current_assets.txt
+          def extract_version(filename):
+              match = re.search(
+                  r"\d+\.\d+(?:\.\d+)?(?:-[A-Za-z0-9.-]+)?",
+                  Path(filename).stem,
+              )
+              return match.group(0) if match else ""
 
-          sort -u current_assets.txt > release_assets.txt
+          records_dir = Path("build_records")
 
-          cat > release_notes.md << EOF
-          # Morphe APKs - Latest Build
+          if not records_dir.exists():
+              raise SystemExit("❌ No build records directory found")
 
-          ## 📱 Available APKs
+          records = []
 
-          EOF
+          for record_file in sorted(records_dir.glob("*.json")):
+              try:
+                  with record_file.open("r", encoding="utf-8") as f:
+                      records.append(json.load(f))
+              except Exception as e:
+                  print(f"⚠️ Failed to read {record_file}: {e}")
 
-          while IFS= read -r filename; do
-            [ -n "$filename" ] || continue
-            echo "- $filename" >> release_notes.md
-          done < release_assets.txt
+          if not records:
+              raise SystemExit("❌ No build records found")
 
-          cat >> release_notes.md << EOF
+          # ------------------------------------------------------
+          # App versions
+          # ------------------------------------------------------
 
-          ---
+          app_lines = []
 
-          ## ⚙️ Build Information
+          for record in records:
+              app_name = record.get("app_name", "")
+              version = record.get("resolved_version", "")
 
-          - Automatically checked daily
-          - Incremental builds enabled
-          - App versions resolved automatically
-          - Patch sources checked automatically
-          - Latest compatible Morphe patches
-          - Manual full rebuild available
+              if not app_name or not version:
+                  continue
 
-          ## 🔄 Update Schedule
+              display_name = APP_NAMES.get(app_name, app_name)
+              app_lines.append(f"{display_name}: {version}")
 
-          Daily at 06:17 UTC.
+          # Remove duplicates while preserving order.
+          app_lines = list(dict.fromkeys(app_lines))
 
-          ## ⚠️ Disclaimer
+          # ------------------------------------------------------
+          # Patch repositories
+          # ------------------------------------------------------
 
-          These APKs are automatically built.
-          Use at your own risk.
-          EOF
+          patch_lines = []
 
-          echo ""
-          cat release_notes.md
+          for record in records:
+              patch_repo = record.get("patch_repo", "").strip()
+              patches_file = record.get("patches_file", "").strip()
+
+              if not patch_repo or not patches_file:
+                  continue
+
+              patch_version = extract_version(patches_file)
+
+              if not patch_version:
+                  continue
+
+              patch_lines.append(
+                  f"- {patch_repo}-{patch_version} — "
+                  f"[Changelog](https://github.com/{patch_repo}/releases/tag/v{patch_version})"
+              )
+
+          patch_lines = list(dict.fromkeys(patch_lines))
+
+          # ------------------------------------------------------
+          # CLI files
+          # ------------------------------------------------------
+
+          cli_lines = []
+
+          for record in records:
+              cli_file = record.get("cli_file", "").strip()
+
+              if not cli_file:
+                  continue
+
+              if "morphe" in cli_file.lower():
+                  cli_lines.append(f"- MorpheApp/{cli_file}")
+              else:
+                  cli_lines.append(f"- {cli_file}")
+
+          cli_lines = list(dict.fromkeys(cli_lines))
+
+          # ------------------------------------------------------
+          # Build release notes
+          # ------------------------------------------------------
+
+          lines = [
+              "# Morphe APKs - Latest Build",
+              "",
+          ]
+
+          lines.extend(app_lines)
+
+          if patch_lines:
+              lines.extend([
+                  "",
+                  "Patches:",
+              ])
+              lines.extend(patch_lines)
+
+          if cli_lines:
+              lines.extend([
+                  "",
+                  "CLI:",
+              ])
+              lines.extend(cli_lines)
+
+          Path("release_notes.md").write_text(
+              "\n".join(lines) + "\n",
+              encoding="utf-8",
+          )
+
+          print("")
+          print(Path("release_notes.md").read_text(encoding="utf-8"))
+          PY
 
       # ----------------------------------------------------------
       # Cleanup Old APK Versions
