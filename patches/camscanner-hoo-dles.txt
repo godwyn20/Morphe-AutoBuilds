@@ -1,1 +1,1 @@
--Disable telemetry
++Spoof signature
