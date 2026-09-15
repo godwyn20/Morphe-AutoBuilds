@@ -1,9 +1,0 @@
-{
-  "org": "kustom-industries",
-  "name": "klwp-live-wallpaper-maker",
-  "type": "BUNDLE",
-  "arch": "universal",
-  "dpi": "120-640dpi",
-  "package": "org.kustom.wallpaper",
-  "version": ""
-}

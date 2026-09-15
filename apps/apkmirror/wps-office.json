@@ -1,9 +1,0 @@
-{
-  "org": "wps-office",
-  "name": "wps-office",
-  "type": "APK",
-  "arch": "universal",
-  "dpi": "nodpi",
-  "package": "cn.wps.moffice_eng",
-  "version": ""
-}

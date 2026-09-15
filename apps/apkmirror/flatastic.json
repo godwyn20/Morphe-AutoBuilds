@@ -1,9 +1,0 @@
-{
-  "org": "flatastic-gmbh",
-  "name": "flatastic-clean-flat-schedule",
-  "type": "APK",
-  "arch": "universal",
-  "dpi": "nodpi",
-  "package": "com.flatastic.app",
-  "version": ""
-}

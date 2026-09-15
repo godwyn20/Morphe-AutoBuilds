@@ -1,9 +1,0 @@
-{
-  "org": "soundcloud",
-  "name": "soundcloud-play-music-songs",
-  "type": "BUNDLE",
-  "arch": "universal",
-  "dpi": "120-640dpi",
-  "package": "com.soundcloud.android",
-  "version": ""
-}

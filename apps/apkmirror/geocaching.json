@@ -1,9 +1,0 @@
-{
-  "org": "groundspeak-inc",
-  "name": "geocaching",
-  "type": "BUNDLE",
-  "arch": "universal",
-  "dpi": "120-640dpi",
-  "package": "com.groundspeak.geocaching.intro",
-  "version": ""
-}

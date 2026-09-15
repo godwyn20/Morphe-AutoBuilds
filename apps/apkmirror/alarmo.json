@@ -1,9 +1,0 @@
-{
-  "org": "bytesong-holding-limited",
-  "name": "mission-alarm-clock",
-  "type": "BUNDLE",
-  "arch": "universal",
-  "dpi": "nodpi",
-  "package": "com.bytesong.missionalarm",
-  "version": ""
-}

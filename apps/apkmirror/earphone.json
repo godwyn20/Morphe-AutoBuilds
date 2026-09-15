@@ -1,9 +1,0 @@
-{
-  "org": "ut-app",
-  "name": "earphone-alarm",
-  "type": "APK",
-  "arch": "universal",
-  "dpi": "nodpi",
-  "package": "com.wixsite.ut_app.utalarm",
-  "version": ""
-}

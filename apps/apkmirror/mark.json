@@ -1,9 +1,0 @@
-{
-  "org": "mark",
-  "name": "mark",
-  "type": "APK",
-  "arch": "universal",
-  "dpi": "nodpi",
-  "package": "com.mark.app",
-  "version": ""
-}
