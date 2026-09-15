@@ -4,6 +4,7 @@
     { "app_name": "youtube-music", "source": "morphe" },
     { "app_name": "brave", "source": "kveld9" },
     { "app_name": "vivaldi", "source": "kveld9" },
-    { "app_name": "tiktok", "source": "kveld9" }
+    { "app_name": "tiktok", "source": "kveld9" },
+    { "app_name": "gboard", "source": "jasonwu1994" }
   ]
 }

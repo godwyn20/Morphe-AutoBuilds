@@ -1,0 +1,5 @@
+-Zhuyin Bottom Row Key Sizes
+-Zhuyin Quick Traditional/Simplified Toggle
+-Zhuyin Slide Input
++Package Rename
+=app_display_name=Gboard
