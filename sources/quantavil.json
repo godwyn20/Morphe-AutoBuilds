@@ -1,0 +1,5 @@
+[
+  { "name": "quantavil" },
+  { "user": "quantavil", "repo": "edge-morphe-patches", "tag": "latest" },
+  { "user": "MorpheApp", "repo": "morphe-cli", "tag": "latest" }
+]
