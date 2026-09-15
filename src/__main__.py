@@ -191,6 +191,23 @@ def run_build(
         f"✅ Using patches: {patches.name}"
     )
 
+        # Save build metadata for record_build.py
+    metadata = {
+        "patch_repo": patch_repo or "",
+        "patches_file": patches.name,
+        "cli_file": cli.name,
+    }
+
+    with Path(".build_metadata.json").open(
+        "w",
+        encoding="utf-8",
+    ) as metadata_file:
+        json.dump(metadata, metadata_file, indent=2)
+
+    logging.info(
+        f"📝 Build metadata saved: {metadata}"
+    )
+
     # ---------------------------------------------------------
     # DOWNLOAD SOURCE PRIORITY
     # ---------------------------------------------------------

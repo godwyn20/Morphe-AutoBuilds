@@ -89,6 +89,13 @@ def main() -> int:
 
     apk_name = Path(apk_path).name if apk_path else ""
 
+    # Gboard's version already contains the architecture suffix, so remove
+    # the duplicated architecture from the filename prefix.
+    if app == "gboard" and apk_name and arch_env:
+        prefix = f"{app}-{arch_env}-"
+        if apk_name.lower().startswith(prefix.lower()):
+            apk_name = f"{app}-" + apk_name[len(prefix):]
+
     # Prefer explicit ARCH env, otherwise detect from filename, fallback universal
     arch = arch_env or detect_arch_from_filename(apk_name) or "universal"
 
@@ -98,6 +105,21 @@ def main() -> int:
     # only ever stored the (often empty) config 'version' field, so apps pinned
     # to "latest" never triggered a rebuild when a new APK version shipped.
     resolved_version = extract_version_from_filename(apk_name)
+    metadata = {}
+
+    metadata_path = Path(".build_metadata.json")
+
+    if metadata_path.exists():
+        try:
+            with metadata_path.open(
+                "r",
+                encoding="utf-8",
+            ) as f:
+                metadata = json.load(f)
+        except Exception as e:
+            print(
+                f"⚠️ Failed to read build metadata: {e}"
+            )
 
     REC_DIR.mkdir(parents=True, exist_ok=True)
     record = {
@@ -107,6 +129,9 @@ def main() -> int:
         "app_name": app,
         "source": src,
         "arch": arch,
+        "patch_repo": metadata.get("patch_repo", ""),
+        "patches_file": metadata.get("patches_file", ""),
+        "cli_file": metadata.get("cli_file", ""),
     }
 
     safe = f"{app}__{src}__{arch}".replace("/", "_")
