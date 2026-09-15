@@ -38,10 +38,5 @@
     "app_name": "windy",
     "source": "hoo-dles",
     "arches": ["arm64-v8a"]
-  },
-  {
-    "app_name": "camscanner",
-    "source": "hoo-dles",
-    "arches": ["arm64-v8a"]
   }
 ]

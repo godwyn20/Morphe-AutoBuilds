@@ -18,7 +18,6 @@ on:
           - vivaldi
           - microsoft-edge
           - windy
-          - camscanner
           - tiktok
         default: 'youtube'
 
@@ -271,7 +270,6 @@ jobs:
               "vivaldi": "Vivaldi",
               "microsoft-edge": "Microsoft Edge",
               "windy": "Windy",
-              "camscanner": "CamScanner",
               "tiktok": "TikTok",
           }
 
@@ -397,7 +395,7 @@ jobs:
           print("========================================")
           print(Path("release_notes.md").read_text(encoding="utf-8"))
           PY
-          
+
       # ========================================
       # Remove Superseded APK Versions
       # ========================================
