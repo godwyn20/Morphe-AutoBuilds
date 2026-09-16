@@ -1,8 +1,8 @@
 {
   "org": "darken",
   "name": "sd-maid-2-se-system-cleaner",
-  "type": "APK",
+  "type": "BUNDLE",
   "arch": "arm64-v8a",
-  "dpi": "nodpi",
+  "dpi": "480-640dpi",
   "package": "eu.darken.sdmse"
 }
