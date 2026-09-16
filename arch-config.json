@@ -108,5 +108,10 @@
   "app_name": "capcut",
   "source": "riky",
   "arches": ["arm64-v8a"]
+  },
+  {
+  "app_name": "strava",
+  "source": "de-vanced",
+  "arches": ["arm64-v8a"]
   }
 ]

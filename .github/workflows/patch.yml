@@ -462,6 +462,7 @@ jobs:
               "proton-mail": "Proton Mail",
               "hidden-settings": "Hidden Settings",
               "capcut": "CapCut",
+              "strava": "Strava",
           }
 
           def extract_version(filename):
