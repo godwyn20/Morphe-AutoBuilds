@@ -31,7 +31,7 @@ on:
           - sd-maid-se
           - speedtest
           - proton-mail
-
+          - hidden-settings
         default: 'youtube'
 
       update_release:
@@ -296,6 +296,7 @@ jobs:
               "sd-maid-se": "SD Maid SE",
               "speedtest": "Speedtest",
               "proton-mail": "Proton Mail",
+              "hidden-settings": "Hidden Settings",
           }
 
           def extract_version(filename):

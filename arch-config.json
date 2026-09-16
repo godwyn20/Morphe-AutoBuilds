@@ -98,5 +98,10 @@
   "app_name": "proton-mail",
   "source": "hxreborn",
   "arches": ["universal"]
+  },
+  {
+  "app_name": "hidden-settings",
+  "source": "lain",
+  "arches": ["universal"]
   }
 ]

@@ -1,0 +1,8 @@
+{
+  "org": "yunus-ceyhan",
+  "name": "hidden-settings-miui-hyperos",
+  "type": "APKM",
+  "arch": "universal",
+  "dpi": "120-640dpi",
+  "package": "com.ceyhan.sets"
+}
