@@ -23,7 +23,6 @@ on:
           - hill-climb-racing
           - jetpack-joyride
           - microsoft-edge
-          - proton-mail
           - proton-vpn
           - sd-maid-se
           - speedtest
@@ -291,7 +290,6 @@ jobs:
               "hill-climb-racing": "Hill Climb Racing",
               "jetpack-joyride": "Jetpack Joyride",
               "microsoft-edge": "Microsoft Edge",
-              "proton-mail": "Proton Mail",
               "proton-vpn": "Proton VPN",
               "sd-maid-se": "SD Maid SE",
               "speedtest": "Speedtest",
