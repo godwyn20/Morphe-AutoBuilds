@@ -485,13 +485,18 @@ def get_download_link(version: str, app_name: str, config: dict, arch: str = Non
     
     def _row_matches(row_text: str) -> bool:
         r = row_text.lower()
+
         if 'variant' in r and 'arch' in r and 'version' in r:
-            return False  # Skip header row
-            
-        c_type = (config.get('type') or '').lower()
-        if c_type and c_type not in r:
             return False
-        
+
+        c_type = (config.get('type') or '').lower()
+        if c_type:
+            if c_type == 'apkm':
+                if 'bundle' not in r and 'apkm' not in r:
+                    return False
+            elif c_type not in r:
+                return False
+
         t_arch = (target_arch or 'universal').lower()
         if t_arch in ['universal', 'noarch']:
             if not any(a in r for a in ['universal', 'noarch', 'arm64-v8a', 'armeabi-v7a', 'arm64', 'arm']):
@@ -501,7 +506,6 @@ def get_download_link(version: str, app_name: str, config: dict, arch: str = Non
 
         c_dpi = (config.get('dpi') or 'nodpi').lower()
         if c_dpi in ['nodpi', '120-640dpi', 'all', '']:
-            # All DPIs acceptable for universal/nodpi/bundle
             pass
         elif c_dpi not in r:
             return False
@@ -566,7 +570,18 @@ def get_download_link(version: str, app_name: str, config: dict, arch: str = Non
         logging.info(f"URL:{response.url} [{content_size}/{content_size}] -> Variant Page")
         soup = BeautifulSoup(response.content, "html.parser")
 
-        sub_url = soup.find('a', class_='downloadButton')
+        download_buttons = soup.find_all('a', class_='downloadButton')
+
+        sub_url = None
+
+        if (config.get('type') or '').lower() == 'apkm':
+            for link in download_buttons:
+                if 'bundle' in link.get_text(' ', strip=True).lower():
+                    sub_url = link
+                    break
+        else:
+            sub_url = download_buttons[0] if download_buttons else None
+
         if sub_url:
             final_download_page_url = base_url + sub_url['href']
             response = _cf_get(final_download_page_url)
