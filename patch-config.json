@@ -8,6 +8,9 @@
     { "app_name": "gboard", "source": "jasonwu1994" },
     { "app_name": "microsoft-edge", "source": "quantavil" },
     { "app_name": "windy", "source": "hoo-dles" },
-    { "app_name": "camscanner", "source": "hoo-dles" }
+    { "app_name": "camscanner", "source": "hoo-dles" },
+    { "app_name": "hill-climb-racing", "source": "okish" },
+    { "app_name": "jetpack-joyride", "source": "okish" }
+    { "app_name": "adobe-acrobat", "source": "hoomans" }
   ]
 }

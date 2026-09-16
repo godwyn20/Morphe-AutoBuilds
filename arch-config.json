@@ -53,5 +53,10 @@
   "app_name": "jetpack-joyride",
   "source": "okish",
   "arches": ["arm64-v8a"]
+  },
+  {
+  "app_name": "adobe-acrobat",
+  "source": "hoomans",
+  "arches": ["arm64-v8a"]
   }
 ]

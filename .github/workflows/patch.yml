@@ -451,6 +451,7 @@ jobs:
               "tiktok": "TikTok",
               "hill-climb-racing": "Hill Climb Racing",
               "jetpack-joyride": "Jetpack Joyride",
+              "adobe-acrobat": "Adobe Acrobat",
           }
 
           def extract_version(filename):

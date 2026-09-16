@@ -22,6 +22,7 @@ on:
           - tiktok
           - hill-climb-racing
           - jetpack-joyride
+          - adobe-acrobat
         default: 'youtube'
 
       update_release:
@@ -277,6 +278,7 @@ jobs:
               "tiktok": "TikTok",
               "hill-climb-racing": "Hill Climb Racing",
               "jetpack-joyride": "Jetpack Joyride",
+              "adobe-acrobat": "Adobe Acrobat",
           }
 
           def extract_version(filename):
