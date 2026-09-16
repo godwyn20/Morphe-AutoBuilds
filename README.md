@@ -1,276 +1,160 @@
 <div align="center">
 
-# 🔧 Morphe Non-Root Builder
+# 🔧 Morphe Non-Root Builds
 
-[![Daily Build](https://img.shields.io/github/actions/workflow/status/RookieEnough/Revanced-AutoBuilds/patch.yml?label=Daily%20Build&style=for-the-badge&color=2ea44f)](https://github.com/RookieEnough/Revanced-AutoBuilds/actions/workflows/patch.yml)
-[![Latest Release](https://img.shields.io/github/v/release/RookieEnough/Revanced-AutoBuilds?style=for-the-badge&label=Latest%20Release&color=0366d6)](https://github.com/RookieEnough/Revanced-AutoBuilds/releases/latest)
-[![Python Version](https://img.shields.io/badge/Python-3.11%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![License](https://img.shields.io/github/license/RookieEnough/Revanced-AutoBuilds?style=for-the-badge&color=orange)](LICENSE)
+**Pre-built Morphe APKs for non-root Android devices.** 
 
+Forked from [RookieEnough/Morphe-AutoBuilds](https://github.com/RookieEnough/Morphe-AutoBuilds).
 
-<p align="center">
-  <a href="https://ko-fi.com/rookie_z" target="_blank"><img src="https://storage.ko-fi.com/cdn/kofi6.png?v=6" height="30" style="height:30px; border-radius:8px; display:inline-block;" alt="Donate via Ko-fi" /></a>
-  &nbsp;&nbsp;
-  <a href="https://buymeachai.ezee.li/RookieZ" target="_blank"><img src="https://raw.githubusercontent.com/TakiShiwa/donate-with-upi/ffbb38749891aeb62e758a3692698e346e3df2da/Button/SVG/UPI-light-blue-01.svg" height="30" style="height:30px; border-radius:8px; display:inline-block;" alt="Donate via UPI" /></a>
-  <br />
-  <a href="https://paypal.me/RookieEnough" target="_blank"><img src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png" height="50" style="height:50px; border-radius:8px; display:inline-block; margin-top:8px;" alt="Donate via PayPal" /></a>
-</p>
+[![Daily Build](https://img.shields.io/github/actions/workflow/status/godwyn20/Morphe-AutoBuilds/patch.yml?label=Daily%20Build\&style=for-the-badge)](https://github.com/godwyn20/Morphe-AutoBuilds/actions/workflows/patch.yml)
 
-
-
-<p align="center">
-  <strong>Professional, Automated ReVanced APK Builder</strong><br>
-  Multi-source • Multi-architecture • GitHub Actions Powered
-</p>
-
-<p align="center">
-A sophisticated, automated pipeline that builds ready-to-install Morphe applications for <strong>non-rooted Android devices</strong>. This system automatically fetches the latest Morphe tools, downloads base APKs from multiple sources, applies patches, and publishes optimized APKs with architecture-specific builds.
-</p>
-
-[![View Latest Release](https://img.shields.io/badge/View%20Latest%20Release-0A0A0A?style=flat&logo=github&logoColor=white)](https://github.com/RookieEnough/Revanced-AutoBuilds/releases/latest)
-[![Report Bug](https://img.shields.io/badge/Report%20Bug-0A0A0A?style=flat&logo=github&logoColor=white)](https://github.com/RookieEnough/Revanced-AutoBuilds/issues)
-[![Request Feature](https://img.shields.io/badge/Request%20Feature-0A0A0A?style=flat&logo=github&logoColor=white)](https://github.com/RookieEnough/Revanced-AutoBuilds/issues)
-
+[![Latest Release](https://img.shields.io/github/v/release/godwyn20/Morphe-AutoBuilds?style=for-the-badge\&label=Latest%20Release)](https://github.com/godwyn20/Morphe-AutoBuilds/releases/latest)
 
 </div>
 
 ---
 
-## ⚡ Quick Downloads
+## 📥 Download
 
-> **Note:** All APKs are automatically rebuilt daily at 06:00 UTC to ensure you have the latest features and security patches.
+👉 **[Download the Latest Release](https://github.com/godwyn20/Morphe-AutoBuilds/releases/latest)**
 
-### 📥 Download Links
+Choose the APK for the app you want to install.
 
-| Mirror | Description | Link |
-| :--- | :--- | :--- |
-| **GitHub Releases** | Primary source. Contains all builds. | [**Download Latest Release**](https://RookieEnough/morphe-AutoBuilds/releases/latest) |
+Most modern Android phones use **arm64-v8a**.
 
-### 📱 Supported Apps & Architectures
-
-| Application | arm64-v8a | armeabi-v7a | Universal |
-| :--- | :---: | :---: | :---: |
-| **YouTube** | ✅ | ✅ | ✅ |
-| **YouTube Music** | ✅ | ✅ | ❌ |
-| **Reddit** | ❌ | ❌ | ✅ |
-| **Twitter (X)** | ✅ | ❌ | ❌ |
-| **TikTok** | ❌ | ❌ | ✅ |
-| **Spotify** | ❌ | ❌ | ✅ |
-
-*( Legend: ✅ = Available / ❌ = Not configured )*
+> The builds in this repository are automatically generated from the configured app versions and Morphe patches.
 
 ---
 
-## ✨ Key Features
+## 📱 Available Apps
 
-This repository utilizes a robust Python-based pipeline to ensure high reliability and optimization.
-
-* **Fully Automated:** GitHub Actions workflow executes daily at 06:00 UTC, requiring zero manual intervention.
-* **Architecture Optimization:** Builds specific `arm64-v8a`, `armeabi-v7a`, and `universal` APKs to reduce file size and improve performance on target devices.
-* **Multi-Source Strategy:** Intelligent fetching from APKMirror, APKPure, and Uptodown ensures high success rates even if one source is down.
-* **Granular Patch Control:** Simple text-based configuration allows for precise inclusion or exclusion of specific patches.
-* **Smart Failover:** The system automatically switches download sources if a fetch attempt fails.
-* **Auto-Signing:** All APKs are signed with a consistent public keystore, making them ready to install immediately.
-* **Clean Release Cycle:** Previous releases are replaced rather than archived, preventing clutter and making it easy for external managers (like Orion) to track updates.
-
----
-
-## 🛠️ Repository Structure
-
-```text
-revanced-nonroot/
-├── .github/workflows/      # GitHub Actions automation
-│   ├── patch.yml           # Daily automated builds (06:00 UTC)
-│   └── manual-patch.yml    # Manual trigger workflow
-├── apps/                   # APK source configurations
-│   ├── apkmirror/          # APKMirror definitions
-│   ├── apkpure/            # APKPure definitions
-│   └── uptodown/           # UptoDown definitions
-├── patches/                # Patch inclusion/exclusion rules
-├── sources/                # ReVanced tool source definitions
-├── src/                    # Core Python build logic
-├── arch-config.json        # Architecture build matrix
-├── patch-config.json       # App build configuration
-└── requirements.txt        # Project dependencies
-
-```
+| App               | Architecture |
+| :---------------- | :----------: |
+| 1.1.1.1           |  `arm64-v8a` |
+| Adobe Acrobat     |  `arm64-v8a` |
+| Brave             |  `arm64-v8a` |
+| CamScanner        |  `arm64-v8a` |
+| CapCut            |  `arm64-v8a` |
+| Microsoft Excel   |  `arm64-v8a` |
+| Gboard            |  `arm64-v8a` |
+| Google Photos     |  `arm64-v8a` |
+| Hidden Settings   |  `universal` |
+| Hill Climb Racing |  `arm64-v8a` |
+| Jetpack Joyride   |  `arm64-v8a` |
+| Microsoft Edge    |  `arm64-v8a` |
+| Proton VPN        |  `arm64-v8a` |
+| SD Maid SE        |  `arm64-v8a` |
+| Speedtest         |  `arm64-v8a` |
+| Strava            |  `arm64-v8a` |
+| TikTok            |  `universal` |
+| Traffic Rider     |  `arm64-v8a` |
+| Vivaldi           |  `arm64-v8a` |
+| Windy             |  `arm64-v8a` |
+| Microsoft Word    |  `arm64-v8a` |
+| YouTube           |  `universal` |
+| YouTube Music     |  `arm64-v8a` |
 
 ---
 
-## ⚙️ Configuration Guide
+## 📲 How to Install
 
-This builder is highly configurable. You can adjust the following files to customize the build output.
+### 1. Download your app
 
-### 1. App Selection (`patch-config.json`)
+Go to the **[Latest Release](https://github.com/godwyn20/Morphe-AutoBuilds/releases/latest)** and download the APK for the app you want.
 
-Define which applications the pipeline should attempt to build.
+### 2. Allow APK installation
 
-```json
-{
-  "patch_list": [
-    { "app_name": "youtube", "source": "morphe" },
-    { "app_name": "youtube-music", "source": "morphe" },
-    { "app_name": "X", "source": "crimera" }
-  ]
-}
+If Android asks for permission, allow the browser or file manager you used to download the APK to **install unknown apps**.
 
-```
+You only need to do this once.
 
-### 2. Architecture Matrix (`arch-config.json`)
+### 3. Install the APK
 
-Specify which CPU architectures to target for each application.
+Open the downloaded APK and install it.
 
-```json
-[
-  {
-    "app_name": "youtube",
-    "source": "morphe",
-    "arches": ["arm64-v8a", "armeabi-v7a", "universal"]
-  },
-  {
-    "app_name": "youtube-music",
-    "source": "morphe",
-    "arches": ["arm64-v8a", "armeabi-v7a"]
-  }
-]
+If you already have the same patched app installed, Android should normally allow you to install the newer build over it.
 
-```
+> If Android says the app cannot be installed because of a signature or package conflict, you may need to uninstall the existing version first. **Uninstalling an app can remove its local data.**
 
-### 3. Source Definitions
+### 4. Open the app
 
-Located in the `apps/` directory. Example for `apps/apkmirror/youtube.json`:
-
-```json
-{
-  "org": "google-inc",
-  "name": "youtube",
-  "type": "APK",
-  "arch": "universal",
-  "dpi": "nodpi",
-  "package": "com.google.android.youtube",
-  "version": ""
-}
-
-```
-
-### 4. Patch Rules
-
-Located in `patches/`. Example for `patches/youtube-morphe.txt`. Use `+` to force include and `-` to exclude.
-
-```text
-# Essential patches
-+ microg-support
-+ premium-heading
-+ hide-infocard-suggestions
-
-# Exclusions
-- custom-branding
-- amoled
-
-```
+After installation, open the app and complete its normal setup.
 
 ---
 
-## 🚀 Local Build Instructions
+## ▶️ YouTube, YouTube Music & Google Photos
 
-If you prefer to build the APKs on your own machine, follow these steps.
+These apps require **MicroG-RE** for sign-in and Google services.
 
-### Prerequisites
+### First-time installation
 
-* Python 3.11 or higher
-* Java Runtime Environment (JRE)
-* `zip` utility
-* `apksigner` (part of Android SDK Build-Tools)
+1. Download **[MicroG-RE](https://github.com/MorpheApp/MicroG-RE/releases/latest)**.
+2. Install MicroG-RE.
+3. Download the patched YouTube, YouTube Music, or Google Photos APK from the **[Latest Release](https://github.com/godwyn20/Morphe-AutoBuilds/releases/latest)**.
+4. Install the patched app.
+5. Open the app and sign in when prompted.
 
-### Installation & Execution
+> You only need to install MicroG-RE once. The same MicroG-RE installation can be used by supported patched Google apps.
 
-1. **Clone the repository:**
-```bash
-git clone https://github.com/RookieEnough/morphe-AutoBuilds.git
-cd morphe-nonroot
+<details>
+<summary>⚙️ Optional: PotHelper</summary>
 
-```
+**PotHelper** is an optional component for **YouTube and YouTube Music** configurations that use the external PoToken provider.
 
+You do **not** need to install it for every YouTube or YouTube Music installation.
 
-2. **Install dependencies:**
-```bash
-pip install -r requirements.txt
-pip install requests beautifulsoup4
+If your configuration specifically requires it:
 
-```
+👉 [**Download PotHelper**](https://github.com/MorpheApp/PotHelper/releases/latest)
 
+PotHelper is an experimental/optional component and may not work in every situation or on every device.
 
-3. **Run the build:**
-You can build for a specific app and source.
-```bash
-export APP_NAME="youtube"
-export SOURCE="morphe"
-python -m src
-
-```
-
-
-4. **Target specific architecture (Optional):**
-```bash
-export APP_NAME="youtube"
-export SOURCE="morphe"
-export ARCH="arm64-v8a"  # Options: arm64-v8a, armeabi-v7a, universal
-python -m src
-
-```
-
-
+</details>
 
 ---
 
-## 🔄 GitHub Actions Workflows
+## 🔄 Updates
 
-### Daily Automated Build (`patch.yml`)
+Builds are automatically checked and generated on a regular schedule.
 
-* **Schedule:** Runs daily at 06:00 UTC.
-* **Function:** Iterates through all configured apps and architectures.
-* **Output:** Updates the single "Latest" release tag.
+When a newer compatible app version and patch combination is available, a new build can be published to the **Latest Release**.
 
-### Manual Build (`manual-patch.yml`)
+### Updating an installed app
 
-* **Trigger:** Manually via the GitHub Actions "Run workflow" button.
-* **Capabilities:**
-* Target specific apps.
-* Target specific architectures.
-* Force specific APK versions.
-* Option to update the public release or just build artifacts.
+1. Download the newer APK from the **[Latest Release](https://github.com/godwyn20/Morphe-AutoBuilds/releases/latest)**.
+2. Install it over your existing patched version.
+3. Open the updated app.
 
+You normally do **not** need to uninstall the old version first.
 
+> If Android refuses the update because the package or signature is different, you may need to uninstall the previous installation. This can remove local app data.
 
 ---
 
-## 🤝 Contributing
+## 🧩 Patch Sources
 
-Contributions to improve the toolchain or add support for new apps are welcome.
+The APKs in this repository use Morphe patches from several community-maintained sources.
 
-1. **Fork** the repository.
-2. **Create** a feature branch (`git checkout -b feature/new-app`).
-3. **Test** your changes locally using the Python scripts.
-4. **Commit** your changes (`git commit -m "Add support for new-app"`).
-5. **Push** to the branch (`git push origin feature/new-app`).
-6. **Open** a Pull Request.
+| Author        | Patch Repository                                                                  |
+| :------------ | :-------------------------------------------------------------------------------- |
+| MorpheApp     | [morphe-patches](https://github.com/MorpheApp/morphe-patches)                     |
+| kveld9        | [kveld-morphe-patches](https://github.com/kveld9/kveld-morphe-patches)            |
+| jasonwu1994   | [Gboard-patches](https://github.com/jasonwu1994/Gboard-patches)                   |
+| quantavil     | [edge-morphe-patches](https://github.com/quantavil/edge-morphe-patches)           |
+| hoo-dles      | [morphe-patches](https://github.com/hoo-dles/morphe-patches)                      |
+| byehi98       | [okish-morphe-patches](https://github.com/byehi98/okish-morphe-patches)           |
+| arandomhooman | [hoomans-morphe-patches](https://github.com/arandomhooman/hoomans-morphe-patches) |
+| rushiranpise  | [morphe-patches](https://github.com/rushiranpise/morphe-patches)                  |
+| kiraio-moe    | [Lain-Patches](https://github.com/kiraio-moe/Lain-Patches)                        |
+| riky-dev      | [morphe-patches](https://github.com/riky-dev/morphe-patches)                      |
+| RookieEnough  | [De-Vanced](https://github.com/RookieEnough/De-Vanced)                            |
 
----
-
-## ⚠️ Disclaimer & Legal
-
-> **Important:** This project is an automated build tool. The APKs provided in the releases are generated automatically using official Morphe tools and patches.
-
-* **Affiliation:** These builds are **not** officially affiliated with the Morphe Team.
-* **Usage:** Provided for educational and convenience purposes only. Use at your own risk.
-* **GmsCore:** Morphe's MicroG-RE is required for these non-root apps to function correctly.
-* **Updates:** Patches are automatically pulled from the latest sources; builds may occasionally contain experimental features.
+> Patch repositories are maintained independently from this project. Their supported apps and versions can change over time.
 
 ---
 
-<div align="center">
+## ⚠️ Disclaimer
 
-**If you found this project helpful, please consider giving it a ⭐ Star.**  
-<br>
-**Made with 💜 by RookieZ**
+This project is not affiliated with Morphe or the developers of the listed applications.
 
+Use these builds at your own discretion. Apps and patches may change or stop working at any time.
