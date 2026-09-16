@@ -461,6 +461,7 @@ jobs:
               "speedtest": "Speedtest",
               "proton-mail": "Proton Mail",
               "hidden-settings": "Hidden Settings",
+              "capcut": "CapCut",
           }
 
           def extract_version(filename):

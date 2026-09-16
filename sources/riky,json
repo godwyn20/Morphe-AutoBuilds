@@ -1,0 +1,13 @@
+[
+  { "name": "riky" },
+  {
+    "user": "riky-dev",
+    "repo": "morphe-patches",
+    "tag": "latest"
+  },
+  {
+    "user": "MorpheApp",
+    "repo": "morphe-cli",
+    "tag": "latest"
+  }
+]

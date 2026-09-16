@@ -32,6 +32,7 @@ on:
           - speedtest
           - proton-mail
           - hidden-settings
+          - capcut
         default: 'youtube'
 
       update_release:
@@ -297,6 +298,7 @@ jobs:
               "speedtest": "Speedtest",
               "proton-mail": "Proton Mail",
               "hidden-settings": "Hidden Settings",
+              "capcut": "CapCut",
           }
 
           def extract_version(filename):
