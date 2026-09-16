@@ -10,7 +10,14 @@
     { "app_name": "windy", "source": "hoo-dles" },
     { "app_name": "camscanner", "source": "hoo-dles" },
     { "app_name": "hill-climb-racing", "source": "okish" },
-    { "app_name": "jetpack-joyride", "source": "okish" }
-    { "app_name": "adobe-acrobat", "source": "hoomans" }
+    { "app_name": "jetpack-joyride", "source": "okish" },
+    { "app_name": "adobe-acrobat", "source": "hoomans" },
+    { "app_name": "1-1-1-1", "source": "rushiranpise" },
+    { "app_name": "excel", "source": "rushiranpise" },
+    { "app_name": "word", "source": "rushiranpise" },
+    { "app_name": "google-photos", "source": "rushiranpise" },
+    { "app_name": "proton-vpn", "source": "rushiranpise" },
+    { "app_name": "sd-maid-se", "source": "rushiranpise" },
+    { "app_name": "speedtest", "source": "rushiranpise" }
   ]
 }

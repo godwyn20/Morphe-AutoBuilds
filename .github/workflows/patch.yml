@@ -452,6 +452,13 @@ jobs:
               "hill-climb-racing": "Hill Climb Racing",
               "jetpack-joyride": "Jetpack Joyride",
               "adobe-acrobat": "Adobe Acrobat",
+              "1-1-1-1": "1.1.1.1",
+              "excel": "Microsoft Excel",
+              "word": "Microsoft Word",
+              "google-photos": "Google Photos",
+              "proton-vpn": "Proton VPN",
+              "sd-maid-se": "SD Maid SE",
+              "speedtest": "Speedtest",
           }
 
           def extract_version(filename):

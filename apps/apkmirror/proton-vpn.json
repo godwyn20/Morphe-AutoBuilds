@@ -1,0 +1,8 @@
+{
+  "org": "proton-technologies-ag",
+  "name": "protonvpn-secure-and-free-vpn",
+  "type": "APK",
+  "arch": "arm64-v8a",
+  "dpi": "nodpi",
+  "package": "ch.protonvpn.android"
+}
