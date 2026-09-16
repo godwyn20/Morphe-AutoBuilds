@@ -34,6 +34,7 @@ on:
           - hidden-settings
           - capcut
           - strava
+          - traffic-rider
         default: 'youtube'
 
       update_release:
@@ -301,6 +302,7 @@ jobs:
               "hidden-settings": "Hidden Settings",
               "capcut": "CapCut",
               "strava": "Strava",
+              "traffic-rider": "Traffic Rider",
           }
 
           def extract_version(filename):

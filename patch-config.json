@@ -22,6 +22,7 @@
     { "app_name": "proton-mail", "source": "hxreborn" },
     { "app_name": "hidden-settings", "source": "lain" },
     { "app_name": "capcut", "source": "riky" },
-    { "app_name": "strava", "source": "de-vanced" }
+    { "app_name": "strava", "source": "de-vanced" },
+    { "app_name": "traffic-rider", "source": "okish" }
   ]
 }
