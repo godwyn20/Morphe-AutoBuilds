@@ -1,0 +1,13 @@
+[
+  { "name": "hxreborn" },
+  {
+    "user": "hxreborn",
+    "repo": "morphe-patches",
+    "tag": "latest"
+  },
+  {
+    "user": "MorpheApp",
+    "repo": "morphe-cli",
+    "tag": "latest"
+  }
+]

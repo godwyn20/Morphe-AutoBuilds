@@ -18,6 +18,7 @@
     { "app_name": "google-photos", "source": "rushiranpise" },
     { "app_name": "proton-vpn", "source": "rushiranpise" },
     { "app_name": "sd-maid-se", "source": "rushiranpise" },
-    { "app_name": "speedtest", "source": "rushiranpise" }
+    { "app_name": "speedtest", "source": "rushiranpise" },
+    { "app_name": "proton-mail", "source": "hxreborn" }
   ]
 }

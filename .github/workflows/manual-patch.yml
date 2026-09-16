@@ -30,6 +30,8 @@ on:
           - proton-vpn
           - sd-maid-se
           - speedtest
+          - proton-mail
+
         default: 'youtube'
 
       update_release:
@@ -293,6 +295,7 @@ jobs:
               "proton-vpn": "Proton VPN",
               "sd-maid-se": "SD Maid SE",
               "speedtest": "Speedtest",
+              "proton-mail": "Proton Mail",
           }
 
           def extract_version(filename):

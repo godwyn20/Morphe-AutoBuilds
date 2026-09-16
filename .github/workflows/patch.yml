@@ -459,6 +459,7 @@ jobs:
               "proton-vpn": "Proton VPN",
               "sd-maid-se": "SD Maid SE",
               "speedtest": "Speedtest",
+              "proton-mail": "Proton Mail",
           }
 
           def extract_version(filename):
