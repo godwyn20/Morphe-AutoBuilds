@@ -428,63 +428,9 @@ def run_build(
             if is_bundle:
                 logging.info(
                     f"Input file is a bundle "
-                    f"({input_apk.name}), "
-                    f"using APKEditor to merge"
+                    f"({input_apk.name}); "
+                    f"leaving bundle intact for Morphe"
                 )
-
-                apk_editor = (
-                    downloader.download_apkeditor()
-                )
-
-                merged_apk = (
-                    input_apk.with_suffix(".apk")
-                )
-
-                merged_apk.unlink(
-                    missing_ok=True
-                )
-
-                try:
-                    utils.run_process(
-                        [
-                            "java",
-                            "-jar",
-                            str(apk_editor),
-                            "m",
-                            "-f",
-                            "-i",
-                            str(input_apk),
-                            "-o",
-                            str(merged_apk),
-                        ],
-                        silent=True,
-                        check=True,
-                    )
-
-                    input_apk.unlink(
-                        missing_ok=True
-                    )
-
-                    input_apk = merged_apk
-
-                except Exception as e:
-                    logging.warning(
-                        f"APKEditor merge failed "
-                        f"({e}); checking if file can "
-                        f"be used as standalone APK"
-                    )
-
-                    if input_apk.exists():
-                        target_apk.unlink(
-                            missing_ok=True
-                        )
-
-                        os.replace(
-                            input_apk,
-                            target_apk,
-                        )
-
-                        input_apk = target_apk
 
             else:
                 logging.info(
@@ -551,7 +497,7 @@ def run_build(
         # ARCHITECTURE PROCESSING
         # -----------------------------------------------------
 
-        if arch != "universal":
+        if arch != "universal" and input_apk.suffix.lower() == ".apk":
             logging.info(
                 f"Processing APK for "
                 f"{arch} architecture..."
