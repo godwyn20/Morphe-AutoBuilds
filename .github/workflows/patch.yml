@@ -449,6 +449,8 @@ jobs:
               "windy": "Windy",
               "camscanner": "CamScanner",
               "tiktok": "TikTok",
+              "hill-climb-racing": "Hill Climb Racing",
+              "jetpack-joyride": "Jetpack Joyride",
           }
 
           def extract_version(filename):

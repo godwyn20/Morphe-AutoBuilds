@@ -20,6 +20,8 @@ on:
           - windy
           - camscanner
           - tiktok
+          - hill-climb-racing
+          - jetpack-joyride
         default: 'youtube'
 
       update_release:
@@ -273,6 +275,8 @@ jobs:
               "windy": "Windy",
               "camscanner": "CamScanner",
               "tiktok": "TikTok",
+              "hill-climb-racing": "Hill Climb Racing",
+              "jetpack-joyride": "Jetpack Joyride",
           }
 
           def extract_version(filename):
