@@ -11,30 +11,30 @@ on:
         required: true
         type: choice
         options:
-          - youtube
-          - youtube-music
+          - 1-1-1-1
+          - adobe-acrobat
           - brave
-          - gboard
-          - vivaldi
-          - microsoft-edge
-          - windy
           - camscanner
-          - tiktok
+          - capcut
+          - excel
+          - gboard
+          - google-photos
+          - hidden-settings
           - hill-climb-racing
           - jetpack-joyride
-          - adobe-acrobat
-          - 1-1-1-1
-          - excel
-          - word
-          - google-photos
+          - microsoft-edge
+          - proton-mail
           - proton-vpn
           - sd-maid-se
           - speedtest
-          - proton-mail
-          - hidden-settings
-          - capcut
           - strava
+          - tiktok
           - traffic-rider
+          - vivaldi
+          - windy
+          - word
+          - youtube
+          - youtube-music
         default: 'youtube'
 
       update_release:
@@ -279,30 +279,30 @@ jobs:
           from pathlib import Path
 
           APP_NAMES = {
-              "youtube": "YouTube",
-              "youtube-music": "YT-Music",
-              "brave": "Brave",
-              "gboard": "Gboard",
-              "vivaldi": "Vivaldi",
-              "microsoft-edge": "Microsoft Edge",
-              "windy": "Windy",
-              "camscanner": "CamScanner",
-              "tiktok": "TikTok",
-              "hill-climb-racing": "Hill Climb Racing",
-              "jetpack-joyride": "Jetpack Joyride",
               "adobe-acrobat": "Adobe Acrobat",
               "1-1-1-1": "1.1.1.1",
+              "brave": "Brave",
+              "camscanner": "CamScanner",
+              "capcut": "CapCut",
               "excel": "Microsoft Excel",
-              "word": "Microsoft Word",
+              "gboard": "Gboard",
               "google-photos": "Google Photos",
+              "hidden-settings": "Hidden Settings",
+              "hill-climb-racing": "Hill Climb Racing",
+              "jetpack-joyride": "Jetpack Joyride",
+              "microsoft-edge": "Microsoft Edge",
+              "proton-mail": "Proton Mail",
               "proton-vpn": "Proton VPN",
               "sd-maid-se": "SD Maid SE",
               "speedtest": "Speedtest",
-              "proton-mail": "Proton Mail",
-              "hidden-settings": "Hidden Settings",
-              "capcut": "CapCut",
               "strava": "Strava",
+              "tiktok": "TikTok",
               "traffic-rider": "Traffic Rider",
+              "vivaldi": "Vivaldi",
+              "windy": "Windy",
+              "word": "Microsoft Word",
+              "youtube": "YouTube",
+              "youtube-music": "YT-Music",
           }
 
           def extract_version(filename):

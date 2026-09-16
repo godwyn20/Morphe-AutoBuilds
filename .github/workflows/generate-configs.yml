@@ -23,38 +23,83 @@ jobs:
           # APKMirror configs
           # ==========================
 
+          # 1.1.1.1
+          echo '{"org":"cloudflare","name":"1-1-1-1-faster-safer-internet","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.cloudflare.onedotonedotonedotone"}' > apps/apkmirror/1-1-1-1.json
+
+          # Adobe Acrobat
+          echo '{"org":"adobe","name":"adobe-acrobat","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.adobe.reader"}' > apps/apkmirror/adobe-acrobat.json
+
           # CamScanner
-          echo '{"org":"intsig-pte","name":"camscanner-phone-pdf-creator","type":"BUNDLE","arch":"arm64-v8a","dpi":"nodpi","package":"com.intsig.camscanner","version":""}' > apps/apkmirror/camscanner.json
+          echo '{"org":"intsig-pte","name":"camscanner-phone-pdf-creator","type":"BUNDLE","arch":"arm64-v8a","dpi":"nodpi","package":"com.intsig.camscanner"}' > apps/apkmirror/camscanner.json
+
+          # CapCut
+          echo '{"org":"bytedance","name":"capcut","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.lemon.lvoverseas"}' > apps/apkmirror/capcut.json
+
+          # Excel
+          echo '{"org":"microsoft-corporation","name":"excel","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.microsoft.office.excel"}' > apps/apkmirror/excel.json
 
           # Gboard
-          echo '{"org":"google-inc","name":"gboard","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.google.android.inputmethod.latin","version":""}' > apps/apkmirror/gboard.json
+          echo '{"org":"google-inc","name":"gboard","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.google.android.inputmethod.latin"}' > apps/apkmirror/gboard.json
+
+          # Google Photos
+          echo '{"org":"google-inc","name":"photos","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.google.android.apps.photos"}' > apps/apkmirror/google-photos.json
+
+          # Hidden Settings
+          echo '{"org":"yunus-ceyhan","name":"hidden-settings-miui-hyperos","type":"APKM","arch":"universal","dpi":"120-640dpi","package":"com.ceyhan.sets"}' > apps/apkmirror/hidden-settings.json
+
+          # Hill Climb Racing
+          echo '{"org":"fingersoft","name":"hill-climb-racing","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.fingersoft.hillclimb"}' > apps/apkmirror/hill-climb-racing.json
+
+          # Jetpack Joyride
+          echo '{"org":"halfbrick-studios","name":"jetpack-joyride","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.halfbrick.jetpackjoyride"}' > apps/apkmirror/jetpack-joyride.json
 
           # Microsoft Edge
-          echo '{"org":"microsoft-corporation","name":"microsoft-edge","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.microsoft.emmx","version":"152.0.4191.65"}' > apps/apkmirror/microsoft-edge.json
+          echo '{"org":"microsoft-corporation","name":"microsoft-edge","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.microsoft.emmx"}' > apps/apkmirror/microsoft-edge.json
+
+          # Proton Mail
+          echo '{"org":"proton-technologies-ag","name":"protonmail-encrypted-email","type":"APK","arch":"universal","dpi":"nodpi","package":"ch.protonmail.android"}' > apps/apkmirror/proton-mail.json
+
+          # Proton VPN
+          echo '{"org":"proton-technologies-ag","name":"protonvpn-secure-and-free-vpn","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"ch.protonvpn.android"}' > apps/apkmirror/proton-vpn.json
+
+          # SD Maid SE
+          echo '{"org":"darken","name":"sd-maid-2-se-system-cleaner","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"eu.darken.sdmse"}' > apps/apkmirror/sd-maid-se.json
+
+          # Speedtest
+          echo '{"org":"ookla","name":"speedtest","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"org.zwanoo.android.speedtest"}' > apps/apkmirror/speedtest.json
+
+          # Strava
+          echo '{"org":"strava-inc","name":"strava-run-and-cycling-gps","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.strava"}' > apps/apkmirror/strava.json
 
           # TikTok
-          echo '{"org":"tiktok-pte-ltd","name":"tik-tok-including-musical-ly","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.zhiliaoapp.musically","version":"46.9.3"}' > apps/apkmirror/tiktok.json
+          echo '{"org":"tiktok-pte-ltd","name":"tik-tok-including-musical-ly","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.zhiliaoapp.musically"}' > apps/apkmirror/tiktok.json
+
+          # Traffic Rider
+          echo '{"org":"skgames","name":"traffic-rider","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.skgames.trafficrider"}' > apps/apkmirror/traffic-rider.json
 
           # Vivaldi
-          echo '{"org":"vivaldi-technologies","name":"vivaldi-browser-beta","type":"APKM","arch":"arm64-v8a","dpi":"nodpi","package":"com.vivaldi.browser","version":""}' > apps/apkmirror/vivaldi.json
+          echo '{"org":"vivaldi-technologies","name":"vivaldi-browser-beta","type":"APKM","arch":"arm64-v8a","dpi":"nodpi","package":"com.vivaldi.browser"}' > apps/apkmirror/vivaldi.json
 
           # Windy
-          echo '{"org":"windy-weather-world-inc","name":"windy","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.windyty.android","version":""}' > apps/apkmirror/windy.json
+          echo '{"org":"windy-weather-world-inc","name":"windy","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.windyty.android"}' > apps/apkmirror/windy.json
+
+          # Word
+          echo '{"org":"microsoft-corporation","name":"word","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.microsoft.office.word"}' > apps/apkmirror/word.json
 
           # YouTube Music
-          echo '{"org":"google-inc","name":"youtube-music","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.google.android.apps.youtube.music","version":""}' > apps/apkmirror/youtube-music.json
+          echo '{"org":"google-inc","name":"youtube-music","type":"APK","arch":"arm64-v8a","dpi":"nodpi","package":"com.google.android.apps.youtube.music"}' > apps/apkmirror/youtube-music.json
 
           # YouTube
-          echo '{"org":"google-inc","name":"youtube","type":"APK","arch":"universal","dpi":"nodpi","package":"com.google.android.youtube","version":""}' > apps/apkmirror/youtube.json
+          echo '{"org":"google-inc","name":"youtube","type":"APK","arch":"universal","dpi":"nodpi","package":"com.google.android.youtube"}' > apps/apkmirror/youtube.json
 
           # ==========================
           # GitHub configs
           # ==========================
 
           # Brave
-          echo '{"name":"brave","type":"APK","arch":"arm64-v8a","package":"com.brave.browser","version":"","repo":"brave/brave-browser","tag":"latest","asset_pattern":"bravemonoarm64"}' > apps/github/brave.json
+          echo '{"name":"brave","type":"APK","arch":"arm64-v8a","package":"com.brave.browser","repo":"brave/brave-browser","tag":"latest","asset_pattern":"bravemonoarm64"}' > apps/github/brave.json
 
-          echo "✅ Configs created for 9 apps"
+          echo "✅ Configs created for 23 apps"
 
           echo ""
           echo "APKMirror configs:"
