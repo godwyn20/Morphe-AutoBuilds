@@ -5,8 +5,8 @@ import re
 import shutil
 import subprocess
 from pathlib import Path
-from sys import exit
-from os import getenv
+from sys import exit, version
+from os import getenv, name
 
 from src import (
     r2,
@@ -721,9 +721,14 @@ def run_build(
             missing_ok=True
         )
 
-        signed_apk = Path(
-            f"{app_name}-{arch}-{name}-v{version}.apk"
-        )
+        if app_name == "gboard":
+            signed_apk = Path(
+                f"{app_name}-{name}-v{version}.apk"
+            )
+        else:
+             signed_apk = Path(
+                f"{app_name}-{arch}-{name}-v{version}.apk"
+            )
 
         apksigner = utils.find_apksigner()
 
