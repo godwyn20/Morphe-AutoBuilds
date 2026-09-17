@@ -45,7 +45,6 @@ Most modern Android phones use **arm64-v8a**.
 | Proton VPN        |  `arm64-v8a` |
 | SD Maid SE        |  `arm64-v8a` |
 | Speedtest         |  `arm64-v8a` |
-| Strava            |  `arm64-v8a` |
 | TikTok            |  `universal` |
 | Traffic Rider     |  `arm64-v8a` |
 | Vivaldi           |  `arm64-v8a` |

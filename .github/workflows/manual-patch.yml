@@ -26,7 +26,6 @@ on:
           - proton-vpn
           - sd-maid-se
           - speedtest
-          - strava
           - tiktok
           - traffic-rider
           - vivaldi
@@ -293,7 +292,6 @@ jobs:
               "proton-vpn": "Proton VPN",
               "sd-maid-se": "SD Maid SE",
               "speedtest": "Speedtest",
-              "strava": "Strava",
               "tiktok": "TikTok",
               "traffic-rider": "Traffic Rider",
               "vivaldi": "Vivaldi",

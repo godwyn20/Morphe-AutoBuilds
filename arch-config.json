@@ -105,11 +105,6 @@
   "arches": ["arm64-v8a"]
   },
   {
-  "app_name": "strava",
-  "source": "de-vanced",
-  "arches": ["arm64-v8a"]
-  },
-  {
   "app_name": "traffic-rider",
   "source": "okish",
   "arches": ["arm64-v8a"]
