@@ -134,19 +134,19 @@ You normally do **not** need to uninstall the old version first.
 
 The APKs in this repository use Morphe patches from several community-maintained sources.
 
-| Author        | Patch Repository                                                                  |
-| :------------ | :-------------------------------------------------------------------------------- |
-| MorpheApp     | [morphe-patches](https://github.com/MorpheApp/morphe-patches)                     |
-| kveld9        | [kveld-morphe-patches](https://github.com/kveld9/kveld-morphe-patches)            |
-| jasonwu1994   | [Gboard-patches](https://github.com/jasonwu1994/Gboard-patches)                   |
-| quantavil     | [edge-morphe-patches](https://github.com/quantavil/edge-morphe-patches)           |
-| hoo-dles      | [morphe-patches](https://github.com/hoo-dles/morphe-patches)                      |
-| byehi98       | [okish-morphe-patches](https://github.com/byehi98/okish-morphe-patches)           |
-| arandomhooman | [hoomans-morphe-patches](https://github.com/arandomhooman/hoomans-morphe-patches) |
-| rushiranpise  | [morphe-patches](https://github.com/rushiranpise/morphe-patches)                  |
-| kiraio-moe    | [Lain-Patches](https://github.com/kiraio-moe/Lain-Patches)                        |
-| riky-dev      | [morphe-patches](https://github.com/riky-dev/morphe-patches)                      |
-| RookieEnough  | [De-Vanced](https://github.com/RookieEnough/De-Vanced)                            |
+| Author        | Patch Repository                                                                    |
+| :------------ | :---------------------------------------------------------------------------------- |
+| MorpheApp     | [morphe-patches](https://github.com/MorpheApp/morphe-patches)                       |
+| kveld9        | [kveld-morphe-patches](https://github.com/kveld9/kveld-morphe-patches)              |
+| jasonwu1994   | [Gboard-patches](https://github.com/jasonwu1994/Gboard-patches)                     |
+| quantavil     | [edge-morphe-patches](https://github.com/quantavil/edge-morphe-patches)             |
+| hoo-dles      | [morphe-patches](https://github.com/hoo-dles/morphe-patches)                        |
+| byehi98       | [okish-morphe-patches](https://github.com/byehi98/okish-morphe-patches)             |
+| arandomhooman | [hoomans-morphe-patches](https://github.com/arandomhooman/hoomans-morphe-patches)   |
+| rushiranpise  | [morphe-patches](https://github.com/rushiranpise/morphe-patches)                    |
+| kiraio-moe    | [Lain-Patches](https://github.com/kiraio-moe/Lain-Patches)                          |
+| riky-dev      | [morphe-patches](https://github.com/riky-dev/morphe-patches)                        |
+| Akash-Sriram  | [morphe-google-photos](https://https://github.com/Akash-Sriram/morphe-google-photos)|
 
 > Patch repositories are maintained independently from this project. Their supported apps and versions can change over time.
 
