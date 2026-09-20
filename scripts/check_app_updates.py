@@ -302,13 +302,22 @@ def _fetch_github_release_dict(user: str, repo: str, tag: str) -> Optional[dict]
         return None
 
     if isinstance(data, list):
-        if tag == "dev":
+        if tag == "latest":
+            # Stable only: exclude prereleases and drafts.
+            data = [
+                r for r in data
+                if not r.get("prerelease", False)
+                and not r.get("draft", False)
+            ]
+        elif tag == "dev":
             data = [r for r in data if "dev" in (r.get("tag_name") or "").lower()]
         elif tag == "prerelease":
             data = [r for r in data if r.get("prerelease")]
+
         if not data:
             _github_release_cache[key] = None
             return None
+
         data.sort(key=lambda r: r.get("created_at", ""), reverse=True)
         rel = data[0]
     else:

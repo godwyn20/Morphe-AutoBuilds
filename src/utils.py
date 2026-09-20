@@ -4,6 +4,7 @@ import re
 import shutil
 import time
 import logging
+import zipfile
 from typing import List, Optional
 from github.GithubException import BadCredentialsException
 from src import gh
