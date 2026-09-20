@@ -37,7 +37,7 @@ Most modern Android phones use **arm64-v8a**.
 | CapCut            |  `arm64-v8a` |
 | Microsoft Excel   |  `arm64-v8a` |
 | Gboard            |  `arm64-v8a` |
-| Google Photos     |  `arm64-v8a` |
+| Google Photos     |  `universal` |
 | Hidden Settings   |  `universal` |
 | Hill Climb Racing |  `arm64-v8a` |
 | Jetpack Joyride   |  `arm64-v8a` |
