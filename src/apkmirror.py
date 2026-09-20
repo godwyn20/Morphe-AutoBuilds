@@ -483,7 +483,7 @@ def get_download_link(version: str, app_name: str, config: dict, arch: str = Non
             rows = table.find_all('div', class_='table-row')
     download_page_url = None
     
-    def _row_matches(row_text: str) -> bool:
+    def _row_matches(row_text: str, allow_universal: bool = False) -> bool:
         r = row_text.lower()
 
         if 'variant' in r and 'arch' in r and 'version' in r:
@@ -502,7 +502,8 @@ def get_download_link(version: str, app_name: str, config: dict, arch: str = Non
             if not any(a in r for a in ['universal', 'noarch', 'arm64-v8a', 'armeabi-v7a', 'arm64', 'arm']):
                 return False
         elif t_arch not in r:
-            return False
+            if not (allow_universal and 'universal' in r):
+                return False
 
         c_dpi = (config.get('dpi') or 'nodpi').lower()
         if c_dpi in ['nodpi', '120-640dpi', 'all', '']:
@@ -536,6 +537,24 @@ def get_download_link(version: str, app_name: str, config: dict, arch: str = Non
                 download_page_url = _extract_row_link(row)
                 if download_page_url:
                     break
+
+        # If the requested architecture is not available, allow a universal APK.
+        if not download_page_url and target_arch not in ['universal', 'noarch']:
+            for row in rows:
+                row_text = row.get_text()
+
+                if 'variant' in row_text.lower() and 'arch' in row_text.lower():
+                    continue
+
+                if version in row_text or version.replace('.', '-') in row_text:
+                    if _row_matches(row_text, allow_universal=True):
+                        if 'universal' in row_text.lower():
+                            download_page_url = _extract_row_link(row)
+                            if download_page_url:
+                                logging.info(
+                                    f"✓ Using universal APK for target architecture {target_arch}"
+                                )
+                                break
     
     # If exact version not found, try to find any variant matching criteria
     if not download_page_url:
