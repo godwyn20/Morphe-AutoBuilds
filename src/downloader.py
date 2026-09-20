@@ -64,12 +64,20 @@ def download_required(source: str) -> tuple[list[Path], str, str | None]:
             or ""
         )
 
-        # Remember the patch repository for automatic
-        # patch-compatible version selection.
-        if "patches" in repo_name.lower() and repo_info.get("user"):
-            patch_repo = f"{repo_info['user']}/{repo_name}"
-
         release = utils.detect_release(repo_info)
+
+        # Remember the repository that provides the Morphe patch file.
+        # Do not rely on the repository name containing "patches":
+        # some sources use names such as "morphe-google-photos".
+        if (
+            patch_repo is None
+            and repo_info.get("user")
+            and any(
+                asset["name"].lower().endswith(".mpp")
+                for asset in release.get("assets", [])
+            )
+        ):
+            patch_repo = f"{repo_info['user']}/{repo_name}"
 
         entry_name = repo_name.lower()
 
