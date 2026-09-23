@@ -1,3 +1,8 @@
 +APK Junk Cleaner
++PNG Asset Optimizer
++Universal WebP Asset Optimizer
 +Live Stream 3D Gift Optimizer
 +Live Stream SDK & Minigame De-bloat
+-Auto-translate comments
++Display Refresh Rate Governor
+=target_refresh_rate=max
