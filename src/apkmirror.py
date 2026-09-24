@@ -491,12 +491,35 @@ def get_download_link(version: str, app_name: str, config: dict, arch: str = Non
                 soup = BeautifulSoup(response.content, "html.parser")
                 page_text = soup.get_text()
                 # Quick validation: check version appears on page
-                if version in page_text or version.replace('.', '-') in page_text:
-                    logging.info(f"✓ Scraped release page validated: {response.url}")
+                version_forms = [
+                    version,
+                    version.replace('.', '-'),
+                ]
+
+                is_exact_version = False
+
+                for version_form in version_forms:
+                    pattern = (
+                        rf"(?<![\d.])"
+                        rf"{re.escape(version_form)}"
+                        rf"(?![\d.])"
+                    )
+
+                    if re.search(pattern, page_text, re.IGNORECASE):
+                        is_exact_version = True
+                        break
+
+                if is_exact_version:
+                    logging.info(
+                        f"✓ Scraped release page validated: {response.url}"
+                    )
                     found_soup = soup
                     correct_version_page = True
                 else:
-                    logging.warning(f"Scraped URL returned page but version {version} not found in content")
+                    logging.warning(
+                        f"Scraped URL returned page but exact version "
+                        f"{version} was not found in content"
+                    )
         except Exception as e:
             logging.warning(f"Error fetching scraped URL: {e}")
 
@@ -596,8 +619,8 @@ def get_download_link(version: str, app_name: str, config: dict, arch: str = Non
                         # Check in page text
                         for check in version_checks:
                             if check and check in page_text:
-                                # Accept version match if it's the base version or includes build info
-                                if check == version or check == version.replace('.', '-') or check == current_ver_str:
+                                # Only accept the exact requested version.
+                                if check == version or check == version.replace('.', '-'):
                                     is_correct_page = True
                                     break
                         
@@ -683,8 +706,9 @@ def get_download_link(version: str, app_name: str, config: dict, arch: str = Non
                 return False
 
         t_arch = (target_arch or 'universal').lower()
+
         if t_arch in ['universal', 'noarch']:
-            if not any(a in r for a in ['universal', 'noarch', 'arm64-v8a', 'armeabi-v7a', 'arm64', 'arm']):
+            if 'universal' not in r and 'noarch' not in r:
                 return False
         elif t_arch not in r:
             if not (allow_universal and 'universal' in r):
@@ -703,17 +727,44 @@ def get_download_link(version: str, app_name: str, config: dict, arch: str = Non
             return False
         return True
 
-    # Helper to find download link in a row
     def _extract_row_link(row) -> str | None:
+        """Extract only the APKMirror download/variant page link from a row."""
+
         for a in row.find_all('a', href=True):
             href = a['href']
-            if '-android-apk-download' in href or href.rstrip('/').endswith('-download'):
-                if not href.endswith('#disqus_thread'):
-                    return base_url + href
-        link = row.find('a', class_='accent_color')
-        if link and 'href' in link.attrs and not link['href'].endswith('#disqus_thread'):
-            return base_url + link['href']
+
+            if href.endswith('#disqus_thread'):
+                continue
+
+            if (
+                '-android-apk-download' in href
+                or href.rstrip('/').endswith('-download')
+            ):
+                return base_url + href
+
         return None
+
+    def _row_has_exact_version(row_text: str) -> bool:
+        """Return True only when the row contains the requested version exactly."""
+
+        text = row_text.lower()
+
+        version_forms = [
+            version.lower(),
+            version.replace(".", "-").lower(),
+        ]
+
+        for version_form in version_forms:
+            pattern = (
+                rf"(?<![\d.])"
+                rf"{re.escape(version_form)}"
+                rf"(?![\d.])"
+            )
+
+            if re.search(pattern, text):
+                return True
+
+        return False
 
     # Try to find exact version match first
     for row in rows:
@@ -722,7 +773,7 @@ def get_download_link(version: str, app_name: str, config: dict, arch: str = Non
             continue
         
         # Check if row contains our exact version
-        if version in row_text or version.replace('.', '-') in row_text:
+        if _row_has_exact_version(row_text):
             if _row_matches(row_text):
                 download_page_url = _extract_row_link(row)
                 if download_page_url:
@@ -736,7 +787,7 @@ def get_download_link(version: str, app_name: str, config: dict, arch: str = Non
                 if 'variant' in row_text.lower() and 'arch' in row_text.lower():
                     continue
 
-                if version in row_text or version.replace('.', '-') in row_text:
+                if _row_has_exact_version(row_text):
                     if _row_matches(row_text, allow_universal=True):
                         if 'universal' in row_text.lower():
                             download_page_url = _extract_row_link(row)
@@ -753,14 +804,6 @@ def get_download_link(version: str, app_name: str, config: dict, arch: str = Non
             f"No exact variant found for {app_name} {version} "
             f"with criteria {criteria}"
         )
-        return None
-    
-    if not download_page_url:
-        logging.error(f"No variant found for {app_name} {version} with criteria {criteria}")
-        # Debug: log what rows we found
-        logging.debug(f"Found {len(rows)} rows total")
-        for idx, row in enumerate(rows[:5]):  # First 5 rows
-            logging.debug(f"Row {idx}: {row.get_text()[:100]}...")
         return None
     
     # --- STANDARD DOWNLOAD FLOW ---
@@ -780,6 +823,13 @@ def get_download_link(version: str, app_name: str, config: dict, arch: str = Non
                 if 'bundle' in link.get_text(' ', strip=True).lower():
                     sub_url = link
                     break
+
+            if not sub_url:
+                logging.error(
+                    f"APKMirror variant page has no BUNDLE download button "
+                    f"for {app_name} {version}"
+                )
+                return None
         else:
             sub_url = download_buttons[0] if download_buttons else None
 
