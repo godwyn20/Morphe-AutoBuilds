@@ -196,6 +196,16 @@ def _scrape_release_url_from_soup(
 
     release_version = version
 
+    # Remember whether the requested version explicitly targets
+    # the stable release channel before removing the suffix.
+    requested_release_channel = bool(
+        re.search(
+            r"-(?:release|stable)$",
+            release_version,
+            re.IGNORECASE,
+        )
+    )
+
     # Remove architecture suffixes.
     release_version = re.sub(
         r"-(?:arm64-v8a|armeabi-v7a|x86_64|x86|universal)$",
@@ -204,8 +214,8 @@ def _scrape_release_url_from_soup(
         flags=re.IGNORECASE,
     )
 
-    # Remove common release/channel suffixes only after preserving
-    # the actual numeric version.
+    # Remove common release/channel suffixes only after recording
+    # the requested channel.
     release_version = re.sub(
         r"-(?:release|stable)$",
         "",
@@ -259,7 +269,7 @@ def _scrape_release_url_from_soup(
 
         # The requested Morphe version is a stable/release build.
         # Do not accidentally select beta, lite, or other release channels.
-        if "release" in release_version.lower():
+        if requested_release_channel:
             if not re.search(r"-release(?:/|$)", href_lower):
                 continue
 
