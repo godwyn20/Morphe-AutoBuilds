@@ -171,91 +171,217 @@ def discover_app_main_url(config: dict) -> str | None:
         logging.debug(f"Error in discover_app_main_url: {e}")
         return None
 
-def _scrape_release_url_from_soup(soup, version: str, config: dict, build_number: str = None, build_format: str = None) -> str | None:
-    """Scan a BeautifulSoup-parsed main app page for a release link matching the version.
-    Returns the full release page URL if found, else None."""
-    # Generate version variations (original + stripped of leading zeros like 26.04.05 -> 26.4.5)
+def _scrape_release_url_from_soup(
+    soup,
+    version: str,
+    config: dict,
+    build_number: str = None,
+    build_format: str = None,
+) -> str | None:
+    """Find an APKMirror release page matching the exact requested version."""
+
     version_variants = [version]
-    clean_v = ".".join(str(int(p)) if p.isdigit() else p for p in version.split('.'))
+
+    clean_v = ".".join(
+        str(int(p)) if p.isdigit() else p
+        for p in version.split(".")
+    )
+
     if clean_v != version:
         version_variants.append(clean_v)
 
-    app_slug = (config.get('name') or config.get('app_slug') or '').lower()
+    app_slug = (
+        config.get("name")
+        or config.get("app_slug")
+        or ""
+    ).lower()
 
     for v in version_variants:
-        version_parts = v.split('.')
-        min_depth = 2 if len(version_parts) >= 2 else 1
-        
-        for i in range(len(version_parts), min_depth - 1, -1):
-            current_ver = ".".join(version_parts[:i])
-            current_ver_dash = "-".join(version_parts[:i])
-            
-            candidates = []
-            for link in soup.find_all('a', href=True):
-                href = link['href'].lower()
-                if not href.startswith('/apk/'):
-                    continue
-                # Ensure the link belongs to this app
-                if app_slug and app_slug not in href:
-                    continue
-                # Check version pattern properly bounded
-                ver_pattern = re.escape(current_ver_dash)
-                if re.search(rf'(?:^|[/-]){ver_pattern}(?:[/-]|$)', href):
-                    priority = 0 if href.rstrip('/').endswith('-release') else 1
-                    candidates.append((priority, link['href']))
-            
-            if candidates:
-                candidates.sort(key=lambda x: (x[0], len(x[1])))
-                chosen = candidates[0][1]
-                full_url = base_url + chosen
-                logging.info(f"✓ Found release page on main listing for {current_ver}: {full_url}")
-                return full_url
-    
+        version_dash = v.replace(".", "-")
+
+        candidates = []
+
+        for link in soup.find_all("a", href=True):
+            href = link["href"].lower()
+
+            if not href.startswith("/apk/"):
+                continue
+
+            if app_slug and app_slug not in href:
+                continue
+
+            # Require the COMPLETE requested version.
+            # Do not accept partial matches such as 18.0 for 18.0.3.
+            if not re.search(
+                rf"(?:^|[/-]){re.escape(version_dash)}(?:[/-]|$)",
+                href,
+            ):
+                continue
+
+            # Prefer actual release pages.
+            priority = (
+                0
+                if href.rstrip("/").endswith("-release")
+                else 1
+            )
+
+            candidates.append(
+                (priority, len(href), link["href"])
+            )
+
+        if candidates:
+            candidates.sort(
+                key=lambda x: (x[0], x[1])
+            )
+
+            chosen = candidates[0][2]
+            full_url = base_url + chosen
+
+            logging.info(
+                f"✓ Found exact release page for "
+                f"{version}: {full_url}"
+            )
+
+            return full_url
+
     return None
 
-def find_release_page_from_main(version: str, config: dict, build_number: str = None, build_format: str = None) -> str | None:
-    """Scrape the main app listing page on APKMirror to find the correct release page URL
-    for a specific version. This avoids URL construction from config fields, which may not
-    match APKMirror's actual URL slugs (e.g., 'duolingo' vs 'duolingo-language-lessons').
-    
-    Strategy:
-    1. Try the configured main page (org/name from config)
-    2. If that 404s, use APKMirror search to discover the correct main page URL
-    3. Scrape release links from whichever main page works
-    
-    Returns the full release page URL if found, or None if scraping fails."""
+def find_release_page_from_main(
+    version: str,
+    config: dict,
+    build_number: str = None,
+    build_format: str = None,
+) -> str | None:
+    """Find the exact APKMirror release page for a version.
+
+    Search order:
+    1. Configured main app page
+    2. Discovered main app page
+    3. APKMirror uploads page
+
+    The uploads page is important because older releases may no longer
+    appear on the main app listing.
+    """
+
     try:
-        # Step 1: Try configured main page first (works for most apps)
-        main_url = f"{base_url}/apk/{config['org']}/{config['name']}/"
+        main_url = (
+            f"{base_url}/apk/"
+            f"{config['org']}/"
+            f"{config['name']}/"
+        )
+
+        # ---------------------------------------------------------
+        # 1. Configured main app page
+        # ---------------------------------------------------------
         response = _cf_get(main_url)
-        
-        soup = None
+
         if response.status_code == 200:
-            soup = BeautifulSoup(response.content, "html.parser")
-            result = _scrape_release_url_from_soup(soup, version, config, build_number, build_format)
+            soup = BeautifulSoup(
+                response.content,
+                "html.parser",
+            )
+
+            result = _scrape_release_url_from_soup(
+                soup,
+                version,
+                config,
+                build_number,
+                build_format,
+            )
+
             if result:
                 return result
-            logging.debug(f"Main page accessible but no version match: {main_url}")
+
+            logging.debug(
+                f"Main page accessible but exact version "
+                f"{version} was not found: {main_url}"
+            )
         else:
-            logging.info(f"Configured main page returned {response.status_code}: {main_url}")
-        
-        # Step 2: If configured main page failed or didn't yield a match, try discovering
-        # the correct main page via APKMirror's search endpoint
+            logging.info(
+                f"Configured main page returned "
+                f"{response.status_code}: {main_url}"
+            )
+
+        # ---------------------------------------------------------
+        # 2. Discover the correct main app page
+        # ---------------------------------------------------------
         discovered_url = discover_app_main_url(config)
-        if discovered_url and discovered_url != main_url:
-            logging.info(f"Trying discovered main page: {discovered_url}")
+
+        if (
+            discovered_url
+            and discovered_url != main_url
+        ):
+            logging.info(
+                f"Trying discovered main page: "
+                f"{discovered_url}"
+            )
+
             response = _cf_get(discovered_url)
+
             if response.status_code == 200:
-                soup = BeautifulSoup(response.content, "html.parser")
-                result = _scrape_release_url_from_soup(soup, version, config, build_number, build_format)
+                soup = BeautifulSoup(
+                    response.content,
+                    "html.parser",
+                )
+
+                result = _scrape_release_url_from_soup(
+                    soup,
+                    version,
+                    config,
+                    build_number,
+                    build_format,
+                )
+
                 if result:
                     return result
-        
-        logging.debug(f"Could not find release page URL from main listing for version {version}")
+
+        # ---------------------------------------------------------
+        # 3. APKMirror uploads page
+        # ---------------------------------------------------------
+        uploads_url = (
+            f"{base_url}/uploads/"
+            f"?appcategory={config['name']}"
+        )
+
+        logging.info(
+            f"Searching APKMirror uploads for exact "
+            f"version {version}: {uploads_url}"
+        )
+
+        response = _cf_get(uploads_url)
+
+        if response.status_code == 200:
+            soup = BeautifulSoup(
+                response.content,
+                "html.parser",
+            )
+
+            result = _scrape_release_url_from_soup(
+                soup,
+                version,
+                config,
+                build_number,
+                build_format,
+            )
+
+            if result:
+                logging.info(
+                    f"✓ Found exact release through "
+                    f"APKMirror uploads: {result}"
+                )
+                return result
+
+        logging.debug(
+            f"Could not find exact APKMirror release "
+            f"page for version {version}"
+        )
+
         return None
-        
+
     except Exception as e:
-        logging.debug(f"Error scraping main page for release URL: {e}")
+        logging.debug(
+            f"Error finding release page: {e}"
+        )
         return None
 
 def get_download_link(version: str, app_name: str, config: dict, arch: str = None) -> str:
