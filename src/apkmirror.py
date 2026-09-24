@@ -746,22 +746,14 @@ def get_download_link(version: str, app_name: str, config: dict, arch: str = Non
                                 )
                                 break
     
-    # If exact version not found, try to find any variant matching criteria
+    # Do not fall back to another version.
+    # The requested version must match exactly.
     if not download_page_url:
-        for row in rows:
-            row_text = row.get_text()
-            if 'variant' in row_text.lower() and 'arch' in row_text.lower():
-                continue
-            if _row_matches(row_text):
-                # Check if this looks like a variant row (has version numbers)
-                if re.search(r'\d+(\.\d+)+', row_text):
-                    download_page_url = _extract_row_link(row)
-                    if download_page_url:
-                        match = re.search(r'(\d+(\.\d+)+(\.\w+)*)', row_text)
-                        if match:
-                            actual_version = match.group(1)
-                            logging.warning(f"Using variant {actual_version} (criteria match)")
-                        break
+        logging.error(
+            f"No exact variant found for {app_name} {version} "
+            f"with criteria {criteria}"
+        )
+        return None
     
     if not download_page_url:
         logging.error(f"No variant found for {app_name} {version} with criteria {criteria}")
