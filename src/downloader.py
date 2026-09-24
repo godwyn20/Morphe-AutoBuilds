@@ -16,29 +16,182 @@ from src import (
 
 
 def download_resource(url: str, name: str = None) -> Path:
-    res = session.get(url, stream=True)
-    res.raise_for_status()
-    final_url = res.url
+    """Download a resource and reject obvious invalid/HTML responses."""
 
-    if not name:
-        name = utils.extract_filename(res, fallback_url=final_url)
+    max_retries = 3
+    last_error = None
 
-    filepath = Path(name)
-    total_size = int(res.headers.get("content-length", 0))
-    downloaded_size = 0
+    for attempt in range(1, max_retries + 1):
+        filepath = None
 
-    with filepath.open("wb") as file:
-        for chunk in res.iter_content(chunk_size=8192):
-            if chunk:
-                file.write(chunk)
-                downloaded_size += len(chunk)
+        try:
+            logging.info(
+                f"Downloading resource "
+                f"(attempt {attempt}/{max_retries}): {url}"
+            )
 
-    logging.info(
-        f'URL: {final_url} [{downloaded_size}/{total_size}] -> "{filepath}" [1]'
+            res = session.get(
+                url,
+                stream=True,
+            )
+
+            res.raise_for_status()
+
+            final_url = res.url
+
+            content_type = (
+                res.headers.get(
+                    "content-type",
+                    "",
+                )
+                .lower()
+                .split(";")[0]
+                .strip()
+            )
+
+            # -------------------------------------------------
+            # REJECT OBVIOUS HTML / CLOUDFLARE RESPONSES
+            # -------------------------------------------------
+
+            if content_type in {
+                "text/html",
+                "application/xhtml+xml",
+            }:
+                raise ValueError(
+                    f"Server returned HTML instead of "
+                    f"an APK/archive "
+                    f"(content-type: {content_type})"
+                )
+
+            # -------------------------------------------------
+            # DETERMINE FILE NAME
+            # -------------------------------------------------
+
+            if not name:
+                name = utils.extract_filename(
+                    res,
+                    fallback_url=final_url,
+                )
+
+            filepath = Path(name)
+
+            total_size = int(
+                res.headers.get(
+                    "content-length",
+                    0,
+                )
+            )
+
+            downloaded_size = 0
+
+            # -------------------------------------------------
+            # DOWNLOAD
+            # -------------------------------------------------
+
+            with filepath.open("wb") as file:
+                for chunk in res.iter_content(
+                    chunk_size=8192
+                ):
+                    if chunk:
+                        file.write(chunk)
+                        downloaded_size += len(chunk)
+
+            # -------------------------------------------------
+            # BASIC FILE VALIDATION
+            # -------------------------------------------------
+
+            if downloaded_size == 0:
+                raise ValueError(
+                    "Downloaded file is empty"
+                )
+
+            # APK/APKM/APKS/XAPK/ZIP files are ZIP-based and
+            # should start with the ZIP magic bytes PK.
+            #
+            # Do not enforce this for JAR or other resources
+            # downloaded through download_required().
+            #
+            suffix = filepath.suffix.lower()
+
+            if suffix in {
+                ".apk",
+                ".apkm",
+                ".apks",
+                ".xapk",
+                ".zip",
+            }:
+                with filepath.open("rb") as file:
+                    magic = file.read(4)
+
+                if magic != b"PK\x03\x04":
+                    # Some valid ZIP files may use an empty/local
+                    # archive structure, but an HTML response will
+                    # never have the normal ZIP signature.
+                    raise ValueError(
+                        "Downloaded file does not have a valid "
+                        "ZIP/APK archive signature"
+                    )
+
+            # -------------------------------------------------
+            # FINAL LOG
+            # -------------------------------------------------
+
+            logging.info(
+                f'URL: {final_url} '
+                f'[{downloaded_size}/{total_size}] '
+                f'-> "{filepath}" [1]'
+            )
+
+            return filepath
+
+        except Exception as e:
+            last_error = e
+
+            if filepath and filepath.exists():
+                filepath.unlink(
+                    missing_ok=True
+                )
+
+            error_text = str(e).lower()
+
+            # -------------------------------------------------
+            # CLOUDFLARE / HTML RESPONSE
+            # -------------------------------------------------
+
+            if (
+                "html" in error_text
+                or "cloudflare" in error_text
+                or "challenge" in error_text
+            ):
+                logging.warning(
+                    f"Download source returned an invalid "
+                    f"HTML/Cloudflare response: {e}"
+                )
+
+                # Do not waste retries on a browser challenge.
+                break
+
+            # -------------------------------------------------
+            # RETRY TRANSIENT DOWNLOAD ERRORS
+            # -------------------------------------------------
+
+            if attempt < max_retries:
+                logging.warning(
+                    f"Download attempt {attempt} failed: "
+                    f"{e}. Retrying..."
+                )
+
+                time.sleep(2)
+                continue
+
+            logging.error(
+                f"Download failed after "
+                f"{max_retries} attempts: {e}"
+            )
+
+    raise last_error or RuntimeError(
+        f"Failed to download resource: {url}"
     )
-
-    return filepath
-
 
 def download_required(source: str) -> tuple[list[Path], str, str | None]:
     source_path = Path("sources") / f"{source}.json"
