@@ -691,11 +691,16 @@ def get_download_link(version: str, app_name: str, config: dict, arch: str = Non
                 return False
 
         c_dpi = (config.get('dpi') or 'nodpi').lower()
-        if c_dpi in ['nodpi', '120-640dpi', 'all', '']:
+
+        if c_dpi == 'all':
             pass
+        elif c_dpi == 'nodpi':
+            # APKMirror APKM/BUNDLE variants use DPI ranges rather than nodpi.
+            # For APKM, allow the available bundle DPI variants.
+            if c_type != 'apkm' and 'nodpi' not in r:
+                return False
         elif c_dpi not in r:
             return False
-
         return True
 
     # Helper to find download link in a row
