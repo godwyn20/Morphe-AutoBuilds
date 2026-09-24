@@ -178,73 +178,118 @@ def _scrape_release_url_from_soup(
     build_number: str = None,
     build_format: str = None,
 ) -> str | None:
-    """Find an APKMirror release page matching the exact requested version."""
+    """Find an APKMirror release page matching the requested version.
 
-    version_variants = [version]
+    The Morphe version may include a variant suffix such as:
+        18.0.3.954559732-release-arm64-v8a
 
-    clean_v = ".".join(
-        str(int(p)) if p.isdigit() else p
-        for p in version.split(".")
+    APKMirror's release page URL only contains the base release version:
+        gboard-the-google-keyboard-18-0-3-954559732-release/
+
+    Architecture and DPI are selected later from the release page's
+    variant table.
+    """
+
+    # ---------------------------------------------------------
+    # Normalize the requested version for release-page lookup.
+    # ---------------------------------------------------------
+
+    release_version = version
+
+    # Remove architecture suffixes.
+    release_version = re.sub(
+        r"-(?:arm64-v8a|armeabi-v7a|x86_64|x86|universal)$",
+        "",
+        release_version,
+        flags=re.IGNORECASE,
     )
 
-    if clean_v != version:
-        version_variants.append(clean_v)
+    # Remove common release/channel suffixes only after preserving
+    # the actual numeric version.
+    release_version = re.sub(
+        r"-(?:release|stable)$",
+        "",
+        release_version,
+        flags=re.IGNORECASE,
+    )
 
-    app_slug = (
-        config.get("name")
-        or config.get("app_slug")
-        or ""
-    ).lower()
+    # Build the version forms APKMirror may use in URLs.
+    version_forms = [
+        release_version,
+        release_version.replace(".", "-"),
+    ]
 
-    for v in version_variants:
-        version_dash = v.replace(".", "-")
+    # Avoid duplicates.
+    version_forms = list(dict.fromkeys(version_forms))
 
-        candidates = []
+    # ---------------------------------------------------------
+    # Find actual APKMirror release links.
+    # ---------------------------------------------------------
 
-        for link in soup.find_all("a", href=True):
-            href = link["href"].lower()
+    candidates = []
 
-            if not href.startswith("/apk/"):
-                continue
+    for link in soup.find_all("a", href=True):
+        href = link["href"]
 
-            if app_slug and app_slug not in href:
-                continue
+        if not href.startswith("/apk/"):
+            continue
 
-            # Require the COMPLETE requested version.
-            # Do not accept partial matches such as 18.0 for 18.0.3.
-            if not re.search(
+        href_lower = href.lower()
+
+        # Only consider actual APK release pages.
+        # Do not accept variant/download pages here.
+        if "-android-apk-download" in href_lower:
+            continue
+
+        # We need the numeric version in the URL.
+        matched_version = False
+
+        for version_form in version_forms:
+            version_dash = version_form.replace(".", "-")
+
+            if re.search(
                 rf"(?:^|[/-]){re.escape(version_dash)}(?:[/-]|$)",
-                href,
+                href_lower,
             ):
+                matched_version = True
+                break
+
+        if not matched_version:
+            continue
+
+        # The requested Morphe version is a stable/release build.
+        # Do not accidentally select beta, lite, or other release channels.
+        if "release" in release_version.lower():
+            if not re.search(r"-release(?:/|$)", href_lower):
                 continue
 
-            # Prefer actual release pages.
-            priority = (
-                0
-                if href.rstrip("/").endswith("-release")
-                else 1
+        priority = 0
+
+        candidates.append(
+            (
+                priority,
+                len(href),
+                href,
             )
+        )
 
-            candidates.append(
-                (priority, len(href), link["href"])
-            )
+    if not candidates:
+        return None
 
-        if candidates:
-            candidates.sort(
-                key=lambda x: (x[0], x[1])
-            )
+    # Prefer the cleanest actual release page.
+    candidates.sort(
+        key=lambda item: (item[0], item[1])
+    )
 
-            chosen = candidates[0][2]
-            full_url = base_url + chosen
+    chosen = candidates[0][2]
+    full_url = base_url + chosen
 
-            logging.info(
-                f"✓ Found exact release page for "
-                f"{version}: {full_url}"
-            )
+    logging.info(
+        f"✓ Found exact APKMirror release page for "
+        f"{version}: {full_url}"
+    )
 
-            return full_url
-
-    return None
+    return full_url
 
 def find_release_page_from_main(
     version: str,
@@ -594,8 +639,12 @@ def get_download_link(version: str, app_name: str, config: dict, arch: str = Non
                 break  # Found correct page for this version part
     
     # If we didn't find the exact version page but found a fallback
-    if not correct_version_page and found_soup:
-        logging.warning(f"Using fallback page for {app_name} {version} (may contain multiple versions)")
+    if not correct_version_page:
+        logging.error(
+            f"✗ Could not find exact APKMirror release page "
+            f"for {version}"
+        )
+        return None
     
     if not found_soup:
         logging.error(f"Could not find any release page for {app_name} {version}")
