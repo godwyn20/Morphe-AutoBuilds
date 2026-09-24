@@ -14,41 +14,65 @@ def _get_headers():
 def _find_release_for_version(repo: str, version: str):
     """
     Find the GitHub release corresponding to a specific version.
+
     This is primarily used for apps whose release assets do not contain
     the version in their filename, such as Brave's BraveMono assets.
     """
     if not version:
         return None
 
-    response = session.get(
-        f"https://api.github.com/repos/{repo}/releases",
-        headers=_get_headers(),
-        params={"per_page": 100},
-    )
-
-    if response.status_code != 200:
-        response.raise_for_status()
-
-    releases = response.json()
     normalized_version = version.lstrip("v")
 
-    for release in releases:
-        if release.get("prerelease"):
-            continue
+    for page in range(1, 11):
+        response = session.get(
+            f"https://api.github.com/repos/{repo}/releases",
+            headers=_get_headers(),
+            params={
+                "per_page": 100,
+                "page": page,
+            },
+        )
 
-        tag_name = str(release.get("tag_name", "")).lstrip("v")
-        release_name = str(release.get("name", "")).lstrip("v")
+        if response.status_code != 200:
+            response.raise_for_status()
 
-        if tag_name == normalized_version or release_name == normalized_version:
-            return release
+        releases = response.json()
 
-        for value in (tag_name, release_name):
-            if re.search(
-                rf"(?<![\d.]){re.escape(normalized_version)}"
-                rf"(?![\d.])",
-                value,
+        if not releases:
+            break
+
+        for release in releases:
+            if release.get("prerelease"):
+                continue
+
+            tag_name = str(
+                release.get("tag_name", "")
+            ).lstrip("v")
+
+            release_name = str(
+                release.get("name", "")
+            ).lstrip("v")
+
+            if (
+                tag_name == normalized_version
+                or release_name == normalized_version
             ):
                 return release
+
+            for value in (
+                tag_name,
+                release_name,
+            ):
+                if re.search(
+                    rf"(?<![\d.])"
+                    f"{re.escape(normalized_version)}"
+                    rf"(?![\d.])",
+                    value,
+                ):
+                    return release
+
+        if len(releases) < 100:
+            break
 
     return None
 
