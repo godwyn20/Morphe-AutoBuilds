@@ -1,6 +1,8 @@
 import json
 import logging
+import subprocess
 import time
+import re
 from pathlib import Path
 
 from src import (
@@ -13,6 +15,76 @@ from src import (
     github,
     apkcombo,
 )
+
+def validate_apk_metadata(
+    filepath: Path,
+    expected_package: str,
+    expected_version: str,
+) -> None:
+    """
+    Validate the actual APK manifest against the package and version
+    requested by the build.
+
+    Raises ValueError if the APK does not match.
+    """
+
+    if filepath.suffix.lower() != ".apk":
+        return
+
+    try:
+        result = subprocess.run(
+            [
+                "aapt2",
+                "dump",
+                "badging",
+                str(filepath),
+            ],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+    except FileNotFoundError as e:
+        raise RuntimeError(
+            "aapt2 was not found; cannot validate APK metadata"
+        ) from e
+    except subprocess.CalledProcessError as e:
+        raise ValueError(
+            f"Could not read APK manifest for {filepath.name}: "
+            f"{e.stderr.strip() or 'aapt2 failed'}"
+        ) from e
+
+    output = result.stdout
+
+    package_match = re.search(
+        r"package: name='([^']+)' versionCode='([^']+)' "
+        r"versionName='([^']+)'",
+        output,
+    )
+
+    if not package_match:
+        raise ValueError(
+            f"Could not read package metadata from {filepath.name}"
+        )
+
+    actual_package = package_match.group(1)
+    actual_version = package_match.group(3)
+
+    if actual_package != expected_package:
+        raise ValueError(
+            f"APK package mismatch: expected "
+            f"{expected_package}, got {actual_package}"
+        )
+
+    if actual_version != expected_version:
+        raise ValueError(
+            f"APK version mismatch: expected "
+            f"{expected_version}, got {actual_version}"
+        )
+
+    logging.info(
+        f"✓ APK metadata validated: "
+        f"{actual_package} v{actual_version}"
+    )
 
 
 def download_resource(url: str, name: str = None) -> Path:
@@ -496,6 +568,12 @@ def download_platform(
             try:
                 filepath = download_resource(
                     download_link
+                )
+
+                validate_apk_metadata(
+                    filepath,
+                    config["package"],
+                    version,
                 )
 
                 return (
