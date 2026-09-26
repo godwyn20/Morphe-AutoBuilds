@@ -20,6 +20,7 @@ def validate_apk_metadata(
     filepath: Path,
     expected_package: str,
     expected_version: str,
+    expected_version_code: str | None = None,
 ) -> None:
     """
     Validate the actual APK manifest against the package and version
@@ -67,6 +68,7 @@ def validate_apk_metadata(
         )
 
     actual_package = package_match.group(1)
+    actual_version_code = package_match.group(2)
     actual_version = package_match.group(3)
 
     if actual_package != expected_package:
@@ -79,6 +81,15 @@ def validate_apk_metadata(
         raise ValueError(
             f"APK version mismatch: expected "
             f"{expected_version}, got {actual_version}"
+        )
+
+    if (
+    expected_version_code is not None
+    and actual_version_code != str(expected_version_code)
+        ):
+        raise ValueError(
+            f"APK version code mismatch: expected "
+            f"{expected_version_code}, got {actual_version_code}"
         )
 
     logging.info(
