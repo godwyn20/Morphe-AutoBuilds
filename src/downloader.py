@@ -94,7 +94,9 @@ def validate_apk_metadata(
 
     logging.info(
         f"✓ APK metadata validated: "
-        f"{actual_package} v{actual_version}"
+        f"{actual_package} "
+        f"v{actual_version} "
+        f"(versionCode {actual_version_code})"
     )
 
 
@@ -581,11 +583,25 @@ def download_platform(
                     download_link
                 )
 
-                validate_apk_metadata(
-                    filepath,
-                    config["package"],
-                    version,
-                )
+                try:
+                    validate_apk_metadata(
+                        filepath,
+                        config["package"],
+                        version,
+                    )
+                except (ValueError, RuntimeError) as e:
+                    logging.warning(
+                        f"APK metadata validation failed for "
+                        f"{filepath.name}: {e}"
+                    )
+
+                    try:
+                        filepath.unlink()
+                    except OSError:
+                        pass
+
+                    last_error = e
+                    continue
 
                 return (
                     filepath,
