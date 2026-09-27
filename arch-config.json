@@ -118,5 +118,10 @@
   "app_name": "proton-mail",
   "source": "hxreborn",
   "arches": ["arm64-v8a"]
+  },
+  {
+  "app_name": "proton-pass",
+  "source": "hxreborn",
+  "arches": ["arm64-v8a"]
   }
 ]

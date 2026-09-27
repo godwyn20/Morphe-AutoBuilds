@@ -25,6 +25,7 @@ on:
           - microsoft-edge
           - proton-vpn
           - proton-mail
+          - proton-pass
           - sd-maid-se
           - speedtest
           - tiktok
@@ -293,6 +294,7 @@ jobs:
               "microsoft-edge": "Microsoft Edge",
               "proton-vpn": "Proton VPN",
               "proton-mail": "Proton Mail"
+              "proton-pass": "Proton Pass"
               "sd-maid-se": "SD Maid SE",
               "speedtest": "Speedtest",
               "tiktok": "TikTok",
