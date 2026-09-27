@@ -1,0 +1,7 @@
+{
+  "name": "native-camera",
+  "type": "BUNDLE",
+  "arch": "arm64-v8a",
+  "package": "com.rawcam.app",
+  "version": ""
+}

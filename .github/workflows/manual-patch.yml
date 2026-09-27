@@ -23,6 +23,7 @@ on:
           - hill-climb-racing
           - jetpack-joyride
           - microsoft-edge
+          - native-camera
           - proton-vpn
           - proton-mail
           - proton-pass
@@ -292,6 +293,7 @@ jobs:
               "hill-climb-racing": "Hill Climb Racing",
               "jetpack-joyride": "Jetpack Joyride",
               "microsoft-edge": "Microsoft Edge",
+              "native-camera": "Native Camera"
               "proton-vpn": "Proton VPN",
               "proton-mail": "Proton Mail"
               "proton-pass": "Proton Pass"
