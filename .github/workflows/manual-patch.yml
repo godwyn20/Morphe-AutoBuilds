@@ -19,6 +19,7 @@ on:
           - excel
           - gboard
           - google-photos
+          - google-maps
           - hidden-settings
           - hill-climb-racing
           - jetpack-joyride
@@ -289,6 +290,7 @@ jobs:
               "excel": "Microsoft Excel",
               "gboard": "Gboard",
               "google-photos": "Google Photos",
+              "google-maps": "Google Maps"
               "hidden-settings": "Hidden Settings",
               "hill-climb-racing": "Hill Climb Racing",
               "jetpack-joyride": "Jetpack Joyride",
