@@ -28,31 +28,37 @@ Most modern Android phones use **arm64-v8a**.
 
 ## 📱 Available Apps
 
-| App               | Architecture |
-| :---------------- | :----------: |
-| 1.1.1.1           |  `arm64-v8a` |
-| Adobe Acrobat     |  `arm64-v8a` |
-| Brave             |  `arm64-v8a` |
-| CamScanner        |  `arm64-v8a` |
-| CapCut            |  `arm64-v8a` |
-| Microsoft Excel   |  `arm64-v8a` |
-| Gboard            |  `arm64-v8a` |
-| Google Photos     |  `arm64-v8a` |
-| Hidden Settings   |  `universal` |
-| Hill Climb Racing |  `arm64-v8a` |
-| Jetpack Joyride   |  `arm64-v8a` |
-| Microsoft Edge    |  `arm64-v8a` |
-| Proton VPN        |  `arm64-v8a` |
-| SD Maid SE        |  `arm64-v8a` |
-| Speedtest         |  `arm64-v8a` |
-| TikTok            |  `arm64-v8a` |
-| TikTok Asia       |  `arm64-v8a` |
-| Traffic Rider     |  `arm64-v8a` |
-| Vivaldi           |  `arm64-v8a` |
-| Windy             |  `arm64-v8a` |
-| Microsoft Word    |  `arm64-v8a` |
-| YouTube           |  `universal` |
-| YouTube Music     |  `arm64-v8a` |
+## 📱 Available Apps
+
+| App                | Architecture |
+| :----------------- | :----------: |
+| 1.1.1.1            | `arm64-v8a` |
+| Adobe Acrobat      | `arm64-v8a` |
+| Brave              | `arm64-v8a` |
+| CamScanner         | `arm64-v8a` |
+| CapCut             | `arm64-v8a` |
+| Microsoft Excel    | `arm64-v8a` |
+| Gboard             | `arm64-v8a` |
+| Google Maps        | `arm64-v8a` |
+| Google Photos      | `arm64-v8a` |
+| Hidden Settings    | `universal` |
+| Hill Climb Racing  | `arm64-v8a` |
+| Jetpack Joyride    | `arm64-v8a` |
+| Microsoft Edge     | `arm64-v8a` |
+| Native Camera      | `arm64-v8a` |
+| Proton Mail        | `arm64-v8a` |
+| Proton Pass        | `arm64-v8a` |
+| Proton VPN         | `arm64-v8a` |
+| SD Maid SE         | `arm64-v8a` |
+| Speedtest          | `arm64-v8a` |
+| TikTok             | `arm64-v8a` |
+| TikTok Asia        | `arm64-v8a` |
+| Traffic Rider      | `arm64-v8a` |
+| Vivaldi            | `arm64-v8a` |
+| Windy              | `arm64-v8a` |
+| Microsoft Word     | `arm64-v8a` |
+| YouTube            | `universal` |
+| YouTube Music      | `arm64-v8a` |
 
 ---
 
@@ -135,19 +141,22 @@ You normally do **not** need to uninstall the old version first.
 
 The APKs in this repository use Morphe patches from several community-maintained sources.
 
-| Author        | Patch Repository                                                                    |
-| :------------ | :---------------------------------------------------------------------------------- |
-| MorpheApp     | [morphe-patches](https://github.com/MorpheApp/morphe-patches)                       |
-| kveld9        | [kveld-morphe-patches](https://github.com/kveld9/kveld-morphe-patches)              |
-| jasonwu1994   | [Gboard-patches](https://github.com/jasonwu1994/Gboard-patches)                     |
-| quantavil     | [edge-morphe-patches](https://github.com/quantavil/edge-morphe-patches)             |
-| hoo-dles      | [morphe-patches](https://github.com/hoo-dles/morphe-patches)                        |
-| byehi98       | [okish-morphe-patches](https://github.com/byehi98/okish-morphe-patches)             |
-| arandomhooman | [hoomans-morphe-patches](https://github.com/arandomhooman/hoomans-morphe-patches)   |
-| rushiranpise  | [morphe-patches](https://github.com/rushiranpise/morphe-patches)                    |
-| kiraio-moe    | [Lain-Patches](https://github.com/kiraio-moe/Lain-Patches)                          |
-| riky-dev      | [morphe-patches](https://github.com/riky-dev/morphe-patches)                        |
-| Akash-Sriram  | [morphe-google-photos](https://https://github.com/Akash-Sriram/morphe-google-photos)|
+| Author        | Patch Repository |
+| :------------ | :--------------- |
+| MorpheApp     | [morphe-patches](https://github.com/MorpheApp/morphe-patches) |
+| kveld9        | [kveld-morphe-patches](https://github.com/kveld9/kveld-morphe-patches) |
+| jasonwu1994   | [Gboard-patches](https://github.com/jasonwu1994/Gboard-patches) |
+| quantavil     | [edge-morphe-patches](https://github.com/quantavil/edge-morphe-patches) |
+| hoo-dles      | [morphe-patches](https://github.com/hoo-dles/morphe-patches) |
+| byehi98       | [okish-morphe-patches](https://github.com/byehi98/okish-morphe-patches) |
+| arandomhooman | [hoomans-morphe-patches](https://github.com/arandomhooman/hoomans-morphe-patches) |
+| rushiranpise  | [morphe-patches](https://github.com/rushiranpise/morphe-patches) |
+| kiraio-moe    | [Lain-Patches](https://github.com/kiraio-moe/Lain-Patches) |
+| riky-dev      | [morphe-patches](https://github.com/riky-dev/morphe-patches) |
+| Akash-Sriram  | [morphe-google-photos](https://github.com/Akash-Sriram/morphe-google-photos) |
+| hxreborn      | [morphe-patches](https://github.com/hxreborn/morphe-patches) |
+| franticg33k   | [morphe-patches](https://github.com/franticg33k/morphe-patches) |
+| bearinmindcat | [morphe-patches](https://github.com/bearinmindcat/morphe-patches) |
 
 > Patch repositories are maintained independently from this project. Their supported apps and versions can change over time.
 
