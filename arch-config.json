@@ -25,6 +25,11 @@
     "arches": ["arm64-v8a"]
   },
   {
+  "app_name": "tiktok-asia",
+  "source": "kveld9",
+  "arches": ["arm64-v8a"]
+  },
+  {
     "app_name": "gboard",
     "source": "jasonwu1994",
     "arches": ["arm64-v8a"]
