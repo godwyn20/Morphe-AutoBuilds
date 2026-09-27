@@ -18,6 +18,7 @@
     { "app_name": "word", "source": "rushiranpise" },
     { "app_name": "google-photos", "source": "akash-sriram" },
     { "app_name": "proton-vpn", "source": "rushiranpise" },
+    {"app_name":  "proton-mail",  "source":"hxreborn" },
     { "app_name": "sd-maid-se", "source": "rushiranpise" },
     { "app_name": "speedtest", "source": "rushiranpise" },
     { "app_name": "hidden-settings", "source": "lain" },

@@ -24,6 +24,7 @@ on:
           - jetpack-joyride
           - microsoft-edge
           - proton-vpn
+          - proton-mail
           - sd-maid-se
           - speedtest
           - tiktok
@@ -291,6 +292,7 @@ jobs:
               "jetpack-joyride": "Jetpack Joyride",
               "microsoft-edge": "Microsoft Edge",
               "proton-vpn": "Proton VPN",
+              "proton-mail": "Proton Mail"
               "sd-maid-se": "SD Maid SE",
               "speedtest": "Speedtest",
               "tiktok": "TikTok",

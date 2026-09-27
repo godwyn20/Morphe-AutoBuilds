@@ -1,0 +1,9 @@
+{
+  "org": "proton-technologies-ag",
+  "name": "protonmail-encrypted-email",
+  "type": "APK",
+  "arch": "arm64-v8a",
+  "dpi": "nodpi",
+  "package": "ch.protonmail.android",
+  "version": ""
+}
