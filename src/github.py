@@ -1,3 +1,4 @@
+from logging import config
 import os
 import re
 import requests
@@ -152,7 +153,7 @@ def get_download_link(
         # If an asset pattern is configured, locate the release by the
         # requested app version first. This is required for assets such
         # as BraveMonoarm64.apk whose filename does not contain the version.
-        if config.get("asset_pattern") and version:
+        if config.get("asset_pattern") and version and tag.lower() != "latest":
             data = _find_release_for_version(repo, version)
 
             if not data:
