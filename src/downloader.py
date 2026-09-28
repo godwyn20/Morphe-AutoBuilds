@@ -1,3 +1,6 @@
+import os
+import shutil
+import glob
 import json
 import logging
 import subprocess
@@ -16,6 +19,165 @@ from src import (
     apkcombo,
 )
 
+def find_aapt2() -> str:
+    """Find a usable aapt2 binary on PATH or in common Android SDK locations."""
+
+    # ---------------------------------------------------------
+    # 1. Check PATH
+    # ---------------------------------------------------------
+
+    aapt2 = shutil.which("aapt2")
+
+    if aapt2 and os.access(aapt2, os.X_OK):
+        logging.info(f"✓ Found aapt2 on PATH: {aapt2}")
+        return aapt2
+
+    # ---------------------------------------------------------
+    # 2. Check common Android SDK roots
+    # ---------------------------------------------------------
+
+    sdk_roots: list[Path] = []
+
+    for env_var in (
+        "ANDROID_SDK_ROOT",
+        "ANDROID_HOME",
+    ):
+        sdk_root = os.environ.get(env_var)
+
+        if sdk_root:
+            sdk_roots.append(Path(sdk_root))
+
+    sdk_roots.extend(
+        [
+            Path("/usr/local/lib/android/sdk"),
+            Path("/opt/android-sdk"),
+            Path("/opt/android-sdk-linux"),
+            Path.home() / "Android" / "Sdk",
+        ]
+    )
+
+    # Remove duplicate paths while preserving order.
+    unique_roots = []
+
+    for root in sdk_roots:
+        if root not in unique_roots:
+            unique_roots.append(root)
+
+    # ---------------------------------------------------------
+    # 3. Search build-tools directories
+    # ---------------------------------------------------------
+
+    candidates: list[Path] = []
+
+    for sdk_root in unique_roots:
+        build_tools = sdk_root / "build-tools"
+
+        if not build_tools.is_dir():
+            continue
+
+        for candidate in build_tools.glob("*/aapt2"):
+            if candidate.is_file() and os.access(candidate, os.X_OK):
+                candidates.append(candidate)
+
+    # ---------------------------------------------------------
+    # 4. Select newest Build Tools version
+    # ---------------------------------------------------------
+
+    if candidates:
+
+        def version_key(path: Path):
+            version = path.parent.name
+
+            # Convert versions such as:
+            # 35.0.0
+            # 34.0.0-rc1
+            # into sortable numeric components.
+            parts = re.findall(r"\d+", version)
+
+            return tuple(
+                int(part)
+                for part in parts
+            )
+
+        candidates.sort(
+            key=version_key,
+            reverse=True,
+        )
+
+        selected = candidates[0]
+
+        logging.info(
+            f"✓ Found aapt2 in Android SDK: {selected}"
+        )
+
+        return str(selected)
+
+    # ---------------------------------------------------------
+    # 5. Last-resort filesystem search
+    # ---------------------------------------------------------
+
+    search_roots = [
+        Path("/usr/local/lib/android"),
+        Path("/opt/android-sdk"),
+        Path("/opt/android-sdk-linux"),
+        Path.home() / "Android",
+    ]
+
+    for root in search_roots:
+
+        if not root.exists():
+            continue
+
+        try:
+            result = subprocess.run(
+                [
+                    "find",
+                    str(root),
+                    "-type",
+                    "f",
+                    "-name",
+                    "aapt2",
+                    "-print",
+                    "-quit",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=10,
+            )
+
+            found = result.stdout.strip()
+
+            if found:
+                candidate = Path(found)
+
+                if candidate.is_file() and os.access(
+                    candidate,
+                    os.X_OK,
+                ):
+                    logging.info(
+                        f"✓ Found aapt2 via filesystem search: "
+                        f"{candidate}"
+                    )
+
+                    return str(candidate)
+
+        except (
+            subprocess.SubprocessError,
+            OSError,
+        ):
+            continue
+
+    # ---------------------------------------------------------
+    # 6. Nothing found
+    # ---------------------------------------------------------
+
+    raise RuntimeError(
+        "aapt2 was not found. "
+        "Checked PATH, ANDROID_SDK_ROOT, ANDROID_HOME, "
+        "common Android SDK locations, and filesystem search."
+    )
+
+
 def validate_apk_metadata(
     filepath: Path,
     expected_package: str,
@@ -32,10 +194,12 @@ def validate_apk_metadata(
     if filepath.suffix.lower() != ".apk":
         return
 
+    aapt2 = find_aapt2()
+
     try:
         result = subprocess.run(
             [
-                "aapt2",
+                aapt2,
                 "dump",
                 "badging",
                 str(filepath),
@@ -44,10 +208,6 @@ def validate_apk_metadata(
             text=True,
             check=True,
         )
-    except FileNotFoundError as e:
-        raise RuntimeError(
-            "aapt2 was not found; cannot validate APK metadata"
-        ) from e
     except subprocess.CalledProcessError as e:
         raise ValueError(
             f"Could not read APK manifest for {filepath.name}: "
@@ -84,9 +244,9 @@ def validate_apk_metadata(
         )
 
     if (
-    expected_version_code is not None
-    and actual_version_code != str(expected_version_code)
-        ):
+        expected_version_code is not None
+        and actual_version_code != str(expected_version_code)
+    ):
         raise ValueError(
             f"APK version code mismatch: expected "
             f"{expected_version_code}, got {actual_version_code}"
@@ -584,22 +744,21 @@ def download_platform(
                 )
 
                 try:
-                    validate_apk_metadata(
-                        filepath,
-                        config["package"],
-                        version,
-                    )
-                except (ValueError, RuntimeError) as e:
+                    validate_apk_metadata(...)
+                except RuntimeError as e:
                     logging.warning(
-                        f"APK metadata validation failed for "
-                        f"{filepath.name}: {e}"
+                        f"APK metadata validation unavailable for {filepath.name}: {e}. "
+                        "Keeping the downloaded APK."
                     )
-
+                    return filepath, version, candidates
+                except ValueError as e:
+                    logging.warning(
+                        f"APK metadata validation failed for {filepath.name}: {e}"
+                    )
                     try:
                         filepath.unlink()
                     except OSError:
                         pass
-
                     last_error = e
                     continue
 

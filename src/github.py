@@ -1,5 +1,6 @@
 import os
 import re
+import requests
 import logging
 from src import session
 
@@ -9,7 +10,6 @@ def _get_headers():
     if "GITHUB_TOKEN" in os.environ:
         headers["Authorization"] = f"Bearer {os.environ['GITHUB_TOKEN']}"
     return headers
-
 
 def _find_release_for_version(repo: str, version: str):
     """
@@ -136,7 +136,6 @@ def get_latest_version(app_name: str, config: dict) -> str | None:
         )
 
     return None
-
 
 def get_download_link(
     version: str,
