@@ -742,9 +742,13 @@ def download_platform(
                 filepath = download_resource(
                     download_link
                 )
-
+   
                 try:
-                    validate_apk_metadata(...)
+                    validate_apk_metadata(
+                        filepath,
+                        config["package"],
+                        version,
+                    )
                 except RuntimeError as e:
                     logging.warning(
                         f"APK metadata validation unavailable for {filepath.name}: {e}. "
