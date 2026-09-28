@@ -290,15 +290,15 @@ jobs:
               "excel": "Microsoft Excel",
               "gboard": "Gboard",
               "google-photos": "Google Photos",
-              "google-maps": "Google Maps"
+              "google-maps": "Google Maps",
               "hidden-settings": "Hidden Settings",
               "hill-climb-racing": "Hill Climb Racing",
               "jetpack-joyride": "Jetpack Joyride",
               "microsoft-edge": "Microsoft Edge",
-              "native-camera": "Native Camera"
+              "native-camera": "Native Camera",
               "proton-vpn": "Proton VPN",
-              "proton-mail": "Proton Mail"
-              "proton-pass": "Proton Pass"
+              "proton-mail": "Proton Mail",
+              "proton-pass": "Proton Pass",
               "sd-maid-se": "SD Maid SE",
               "speedtest": "Speedtest",
               "tiktok": "TikTok",
