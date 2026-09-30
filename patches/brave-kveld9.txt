@@ -1,2 +1,4 @@
 +APK Junk Cleaner
 +PNG Asset Optimizer
++Native Bloat Slimmer
++Universal WebP Asset Optimizer
