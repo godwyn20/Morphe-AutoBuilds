@@ -128,5 +128,10 @@
   "app_name": "native-camera",
   "source": "franticg33k",
   "arches": ["arm64-v8a"]
+  },
+  {
+  "app_name": "google-maps",
+  "source": "bearinmindcat",
+  "arches": ["universal"]
   }
 ]
