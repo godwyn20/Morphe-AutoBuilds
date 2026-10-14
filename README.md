@@ -52,9 +52,7 @@ Most modern Android phones use **arm64-v8a**.
 | SD Maid SE         | `arm64-v8a` |
 | Speedtest          | `arm64-v8a` |
 | TikTok             | `arm64-v8a` |
-| TikTok Asia        | `arm64-v8a` |
 | Traffic Rider      | `arm64-v8a` |
-| Vivaldi            | `arm64-v8a` |
 | Windy              | `arm64-v8a` |
 | Microsoft Word     | `arm64-v8a` |
 | YouTube            | `universal` |
